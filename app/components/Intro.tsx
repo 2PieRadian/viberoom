@@ -11,18 +11,17 @@ export default function Intro() {
   useEffect(() => {
     const tl = gsap.timeline();
 
-    tl.set(titleRef.current, { opacity: 0, scale: 1.3 })
+    tl.set(titleRef.current, { opacity: 0, scale: 1 })
       .to(titleRef.current, {
         opacity: 1,
         duration: 1.5,
-        scale: 1,
+        scale: 1.33,
         ease: "power3.out",
       })
-      .from(taglineRef.current, {
-        opacity: 0,
+      .to(taglineRef.current, {
+        opacity: 1,
         duration: 3,
-        width: 0,
-        x: -20,
+        width: "auto",
         ease: "power3.out",
       })
       .to(taglineRef.current, {
@@ -53,12 +52,12 @@ export default function Intro() {
       style={{ fontFamily: "var(--font-clash-display)" }}
       ref={containerRef}
     >
-      <h1 className="text-5xl" ref={titleRef}>
+      <h1 className="text-4xl" ref={titleRef}>
         viberoom
       </h1>
 
       <div
-        className="text-[20px] overflow-x-hidden whitespace-nowrap pt-[7px]"
+        className="text-[20px] overflow-x-hidden w-0 whitespace-nowrap pt-[7px] opacity-0 text-center"
         ref={taglineRef}
       >
         Because videos hit different together.
