@@ -12,7 +12,6 @@ export default function Intro({ setIntroDone }: IIntroDoneProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const taglineRef = useRef<HTMLHeadingElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
 
   const [showPara, setShowPara] = useState(true);
 
@@ -51,41 +50,30 @@ export default function Intro({ setIntroDone }: IIntroDoneProps) {
         {
           scale: 1,
           duration: 0.7,
-          transformOrigin: "center top",
           ease: "power3.out",
           onComplete: () => {
             setShowPara(false);
+            setIntroDone(true);
           },
         },
 
         ">-=0.7"
-      )
-      .to(
-        lineRef.current,
-        {
-          width: "100px",
-          duration: 0.8,
-          ease: "power3.out",
-          onComplete: () => setIntroDone(true),
-        },
-        ">"
       );
   }, []);
 
   return (
     <div
-      className={`${ClashDisplayFont.variable} flex flex-col items-center justify-center h-[100svh] bg-[#0d0d0e] py-[20px]`}
+      className={`${ClashDisplayFont.variable} flex flex-col items-center justify-center h-[calc(100svh-1px)] border-b border-[#222323] bg-card py-[20px]`}
       style={{ fontFamily: "var(--font-clash-display)" }}
       ref={containerRef}
     >
       <h1 className="text-[24px] opacity-0 font-light" ref={titleRef}>
         viberoom
       </h1>
-      <div ref={lineRef} className="bg-white h-[1px] w-0"></div>
 
       {showPara && (
         <div
-          className="text-[20px] overflow-x-hidden text-[hsl(208,11%,73%)] w-0 whitespace-nowrap pt-[7px] opacity-0 text-center"
+          className="text-[20px] overflow-x-hidden text-[hsl(0,0%,81%)] w-0 whitespace-nowrap pt-[7px] opacity-0 text-center"
           ref={taglineRef}
         >
           Because videos hit different together.

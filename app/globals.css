@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0d0d0e;
+  --background: rgb(10, 10, 10);
   --foreground: #ffffff;
+
+  --card: rgb(23, 23, 23);
 
   /* Tower Gray - Base Palette */
   --tower-gray-50: #f4f7f7;
@@ -37,6 +39,9 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Shadcn Colors */
+  --color-card: var(--card);
 
   /* Viberoom Color Palette */
   --color-tg-50: var(--tower-gray-50);
