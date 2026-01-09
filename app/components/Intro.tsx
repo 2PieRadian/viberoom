@@ -15,7 +15,7 @@ export default function Intro() {
       .to(titleRef.current, {
         opacity: 1,
         duration: 1.5,
-        scale: 1.33,
+        scale: 2,
         ease: "power3.out",
       })
       .to(taglineRef.current, {
@@ -36,7 +36,7 @@ export default function Intro() {
       .to(
         titleRef.current,
         {
-          scale: 0.6,
+          scale: 1,
           duration: 1,
           y: 10,
           transformOrigin: "center top",
@@ -52,7 +52,7 @@ export default function Intro() {
       style={{ fontFamily: "var(--font-clash-display)" }}
       ref={containerRef}
     >
-      <h1 className="text-4xl" ref={titleRef}>
+      <h1 className="text-2xl opacity-0" ref={titleRef}>
         viberoom
       </h1>
 
