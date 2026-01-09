@@ -34,13 +34,18 @@ export default function Intro({ setIntroDone }: IIntroDoneProps) {
       })
       .to(taglineRef.current, {
         opacity: 0,
-        duration: 0.6,
+        width: 0,
+        duration: 0.7,
       })
-      .to(containerRef.current, {
-        height: "77px",
-        duration: 1,
-        ease: "power3.inOut",
-      })
+      .to(
+        containerRef.current,
+        {
+          height: "77px",
+          duration: 1,
+          ease: "power3.inOut",
+        },
+        ">-=0.4"
+      )
       .to(
         titleRef.current,
         {
