@@ -5,3 +5,9 @@ export const ClashDisplayFont = localFont({
   variable: "--font-clash-display",
   display: "swap",
 });
+
+export const ArchivoFont = localFont({
+  src: "./fonts/Archivo-Variable.ttf",
+  variable: "--font-archivo",
+  display: "swap",
+});

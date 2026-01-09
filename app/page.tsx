@@ -1,9 +1,20 @@
-import Intro from "./components/Intro";
+"use client";
 
-export default async function Home() {
+import { useState } from "react";
+import Intro from "./components/Intro";
+import JoinOrCreateRoom from "./components/JoinOrCreateRoom";
+import { ClashDisplayFont } from "./fonts";
+
+export default function Home() {
+  const [introDone, setIntroDone] = useState(false);
+
   return (
-    <div>
-      <Intro />
+    <div
+      className={`${ClashDisplayFont.variable}`}
+      style={{ fontFamily: "var(--font-clash-display)" }}
+    >
+      <Intro setIntroDone={setIntroDone} />
+      {introDone && <JoinOrCreateRoom />}
     </div>
   );
 }

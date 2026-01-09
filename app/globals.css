@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0d0d0e;
+  --foreground: #ffffff;
 
   /* Tower Gray - Base Palette */
   --tower-gray-50: #f4f7f7;
@@ -18,7 +18,7 @@
   --tower-gray-950: #20292c;
 }
 
-.dark {
+/* .dark {
   --tower-gray-50: #20292c;
   --tower-gray-100: #343f45;
   --tower-gray-200: #3b494f;
@@ -30,7 +30,7 @@
   --tower-gray-800: #c7d7da;
   --tower-gray-900: #e2ebeb;
   --tower-gray-950: #f4f7f7;
-}
+} */
 
 @theme inline {
   --color-background: var(--background);
@@ -52,12 +52,12 @@
   --color-tg-950: var(--tower-gray-950);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
