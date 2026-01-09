@@ -11,3 +11,9 @@ export const ArchivoFont = localFont({
   variable: "--font-archivo",
   display: "swap",
 });
+
+export const SatoshiFont = localFont({
+  src: "./fonts/Satoshi-Variable.ttf",
+  variable: "--font-satoshi",
+  display: "swap",
+});

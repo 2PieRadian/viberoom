@@ -2,6 +2,7 @@
 
 import gsap from "gsap";
 import { useLayoutEffect, useRef, useState } from "react";
+import { ArchivoFont, SatoshiFont } from "../fonts";
 
 function JoinRoomCard() {
   return (
@@ -35,10 +36,11 @@ export default function JoinOrCreateRoom() {
 
   return (
     <div
-      className="px-[clamp(20px,6vw+1px,30px)] flex flex-col items-center"
+      className={`${SatoshiFont.variable} px-[clamp(20px,6vw+1px,30px)] flex flex-col`}
+      style={{ fontFamily: "var(--font-satoshi)" }}
       ref={ref}
     >
-      <h1 className="text-2xl font-medium py-[30px]">
+      <h1 className="text-3xl font-medium py-[40px]">
         Join Or Create an Existing Room
       </h1>
 

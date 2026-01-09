@@ -10,7 +10,7 @@ export default function Home() {
 
   return (
     <div
-      className={`${ClashDisplayFont.variable} min-h-[100svh]`}
+      className={`${ClashDisplayFont.variable}`}
       style={{ fontFamily: "var(--font-clash-display)" }}
     >
       <Intro setIntroDone={setIntroDone} />
