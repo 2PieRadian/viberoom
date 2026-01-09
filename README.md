@@ -1,7 +1,7 @@
 # Viberoom — Watch Together, Perfectly Synced
 
 **Viberoom** is a real-time watch-together platform that lets users join shared rooms and watch YouTube videos in **perfect sync**.  
-No countdowns, no refresh rituals — just press play and vibe together.
+No countdowns, no refresh rituals, just press play and vibe together.
 
 Built with a **server-authoritative, event-driven architecture** to ensure low-latency playback synchronization across all participants, including late joiners.
 
