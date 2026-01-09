@@ -23,7 +23,7 @@ const activeTabStyle = "bg-intro-navbar";
 
 export default function JoinOrCreateRoom() {
   const ref = useRef<HTMLDivElement>(null);
-  const [joinTab, setJoinTab] = useState<"j" | "c">("j");
+  const [tab, setTab] = useState<"j" | "c">("j");
 
   useLayoutEffect(() => {
     gsap.fromTo(
@@ -32,10 +32,6 @@ export default function JoinOrCreateRoom() {
       { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
     );
   }, []);
-
-  function handleTabClick(e: React.MouseEvent<HTMLDivElement>) {
-    setJoinTab(!joinTab);
-  }
 
   return (
     <div
@@ -51,23 +47,23 @@ export default function JoinOrCreateRoom() {
         <div className="flex items-center gap-[30px] pb-[10px] cursor-pointer text-[hsl(0,0%,81%)]">
           <div
             className={`JOIN_ROOM ${
-              joinTab === "j" && activeTabStyle
+              tab === "j" && activeTabStyle
             } text-[20px] px-[20px] py-[10px] rounded-[8px]`}
-            onClick={() => setJoinTab("j")}
+            onClick={() => setTab("j")}
           >
             Join Room
           </div>
           <div
             className={`CREATE_ROOM ${
-              joinTab === "c" && activeTabStyle
+              tab === "c" && activeTabStyle
             } text-[20px] px-[20px] py-[10px] rounded-[8px]`}
-            onClick={() => setJoinTab("c")}
+            onClick={() => setTab("c")}
           >
             Create a Room
           </div>
         </div>
 
-        {joinTab === "j" ? <JoinRoomCard /> : <CreateRoomCard />}
+        {tab === "j" ? <JoinRoomCard /> : <CreateRoomCard />}
       </div>
     </div>
   );
