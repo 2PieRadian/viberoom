@@ -9,15 +9,15 @@ Built with a **server-authoritative, event-driven architecture** to ensure low-l
 
 ## Core Features
 
-- **Room-based co-watching** with unique room IDs  
-- **Real-time sync** for play, pause, and seek actions  
-- **Instant state sync** for users joining mid-video  
-- **Low-latency updates** using WebSockets  
-- **YouTube IFrame API integration**  
+- **Room-based co-watching** with unique room IDs
+- **Real-time sync** for play, pause, and seek actions
+- **Instant state sync** for users joining mid-video
+- **Low-latency updates** using WebSockets
+- **YouTube IFrame API integration**
 - **Single source of truth** for consistent playback state
 
 ---
 
-**Tech Stack:** Next.js · Node.JS · WebSockets (Socket.io) · GSAP 
+**Tech Stack:** Next.js · Node.JS · WebSockets (Socket.io) · GSAP
 
-Videos play better when the moment is shared. Viberoom makes that effortless. 🎶🎬
+# Videos play better when the moment is shared. Viberoom makes that effortless. 🎶🎬

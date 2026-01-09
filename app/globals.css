@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Tower Gray - Base Palette */
+  --tower-gray-50: #f4f7f7;
+  --tower-gray-100: #e2ebeb;
+  --tower-gray-200: #c7d7da;
+  --tower-gray-300: #96b3b8;
+  --tower-gray-400: #73979d;
+  --tower-gray-500: #577b83;
+  --tower-gray-600: #4b676f;
+  --tower-gray-700: #41565d;
+  --tower-gray-800: #3b494f;
+  --tower-gray-900: #343f45;
+  --tower-gray-950: #20292c;
+}
+
+.dark {
+  --tower-gray-50: #20292c;
+  --tower-gray-100: #343f45;
+  --tower-gray-200: #3b494f;
+  --tower-gray-300: #41565d;
+  --tower-gray-400: #4b676f;
+  --tower-gray-500: #577b83;
+  --tower-gray-600: #73979d;
+  --tower-gray-700: #96b3b8;
+  --tower-gray-800: #c7d7da;
+  --tower-gray-900: #e2ebeb;
+  --tower-gray-950: #f4f7f7;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Viberoom Color Palette */
+  --color-tg-50: var(--tower-gray-50);
+  --color-tg-100: var(--tower-gray-100);
+  --color-tg-200: var(--tower-gray-200);
+  --color-tg-300: var(--tower-gray-300);
+  --color-tg-400: var(--tower-gray-400);
+  --color-tg-500: var(--tower-gray-500);
+  --color-tg-600: var(--tower-gray-600);
+  --color-tg-700: var(--tower-gray-700);
+  --color-tg-800: var(--tower-gray-800);
+  --color-tg-900: var(--tower-gray-900);
+  --color-tg-950: var(--tower-gray-950);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
