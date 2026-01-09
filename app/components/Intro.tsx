@@ -67,13 +67,13 @@ export default function Intro({ setIntroDone }: IIntroDoneProps) {
       style={{ fontFamily: "var(--font-clash-display)" }}
       ref={containerRef}
     >
-      <h1 className="text-[24px] opacity-0 font-light" ref={titleRef}>
+      <h1 className="text-xl opacity-0 font-light" ref={titleRef}>
         viberoom
       </h1>
 
       {showPara && (
         <div
-          className="text-[20px] overflow-x-hidden text-[hsl(204,14%,93%)] w-0 whitespace-nowrap pt-[7px] opacity-0 text-center"
+          className="text-md overflow-x-hidden text-[hsl(204,14%,93%)] w-0 whitespace-nowrap pt-[7px] opacity-0 text-center"
           ref={taglineRef}
         >
           Because videos hit different together.

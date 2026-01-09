@@ -20,6 +20,19 @@
   --cerulean-blue-800: hsl(237, 39%, 40%);
   --cerulean-blue-900: hsl(236, 35%, 33%);
   --cerulean-blue-950: hsl(236, 31%, 21%);
+
+  /* Typography scale – Major Third (1.25), base 16px */
+  --font-xs: 0.8rem; /* 12.8px */
+  --font-sm: 0.9rem; /* 14.4px */
+  --font-base: 1rem; /* 16px */
+
+  --font-md: 1.125rem; /* 18px */
+  --font-lg: 1.25rem; /* 20px */
+  --font-xl: 1.563rem; /* 25px */
+
+  --font-2xl: 1.953rem; /* 31.25px */
+  --font-3xl: 2.441rem; /* 39px */
+  --font-4xl: 3.052rem; /* 48.8px */
 }
 
 @theme inline {
@@ -43,6 +56,19 @@
   --color-cerulean-blue-800: var(--cerulean-blue-800);
   --color-cerulean-blue-900: var(--cerulean-blue-900);
   --color-cerulean-blue-950: var(--cerulean-blue-950);
+
+  /* Font Sizes */
+  --text-xs: var(--font-xs);
+  --text-sm: var(--font-sm);
+  --text-base: var(--font-base);
+
+  --text-md: var(--font-md);
+  --text-lg: var(--font-lg);
+  --text-xl: var(--font-xl);
+
+  --text-2xl: var(--font-2xl);
+  --text-3xl: var(--font-3xl);
+  --text-4xl: var(--font-4xl);
 }
 
 body {
