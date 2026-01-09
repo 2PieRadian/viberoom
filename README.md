@@ -18,6 +18,6 @@ Built with a **server-authoritative, event-driven architecture** to ensure low-l
 
 ---
 
-**Tech Stack:** Next.js · Node.JS · WebSockets (Socket.io)
+**Tech Stack:** Next.js · Node.JS · WebSockets (Socket.io) · GSAP 
 
 Videos play better when the moment is shared. Viberoom makes that effortless. 🎶🎬
