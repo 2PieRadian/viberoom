@@ -5,35 +5,22 @@
   --foreground: #ffffff;
 
   /* --card: rgb(23, 23, 23); */
-  --card: #4c54b5;
+  --intro-navbar: hsl(235, 42%, 50%);
+  --room-card: hsl(210, 6%, 6%);
 
   /* Cerulean Blue – Base Palette */
-  --cerulean-blue-50: #f3f5fb;
-  --cerulean-blue-100: #e3e7f6;
-  --cerulean-blue-200: #cdd6f0;
-  --cerulean-blue-300: #abbbe5;
-  --cerulean-blue-400: #8399d7;
-  --cerulean-blue-500: #6679cb;
-  --cerulean-blue-600: #5260be;
-  --cerulean-blue-700: #4c54b5;
-  --cerulean-blue-800: #3f438e;
-  --cerulean-blue-900: #373b71;
-  --cerulean-blue-950: #252746;
+  --cerulean-blue-50: hsl(225, 50%, 97%);
+  --cerulean-blue-100: hsl(227, 51%, 93%);
+  --cerulean-blue-200: hsl(225, 54%, 87%);
+  --cerulean-blue-300: hsl(223, 53%, 78%);
+  --cerulean-blue-400: hsl(224, 51%, 68%);
+  --cerulean-blue-500: hsl(229, 49%, 60%);
+  --cerulean-blue-600: hsl(232, 45%, 53%);
+  --cerulean-blue-700: hsl(235, 42%, 50%);
+  --cerulean-blue-800: hsl(237, 39%, 40%);
+  --cerulean-blue-900: hsl(236, 35%, 33%);
+  --cerulean-blue-950: hsl(236, 31%, 21%);
 }
-
-/* .dark {
-  --cerulean-blue-50:  #252746;
-  --cerulean-blue-100: #373b71;
-  --cerulean-blue-200: #3f438e;
-  --cerulean-blue-300: #4c54b5;
-  --cerulean-blue-400: #5260be;
-  --cerulean-blue-500: #6679cb;
-  --cerulean-blue-600: #8399d7;
-  --cerulean-blue-700: #abbbe5;
-  --cerulean-blue-800: #cdd6f0;
-  --cerulean-blue-900: #e3e7f6;
-  --cerulean-blue-950: #f3f5fb;
-} */
 
 @theme inline {
   --color-background: var(--background);
@@ -42,7 +29,8 @@
   --font-mono: var(--font-geist-mono);
 
   /* Shadcn Colors */
-  --color-card: var(--card);
+  --color-intro-navbar: var(--intro-navbar);
+  --color-room-card: var(--room-card);
 
   --color-cerulean-blue-50: var(--cerulean-blue-50);
   --color-cerulean-blue-100: var(--cerulean-blue-100);
@@ -57,6 +45,12 @@
   --color-cerulean-blue-950: var(--cerulean-blue-950);
 }
 
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -64,8 +58,16 @@
   }
 } */
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* .dark {
+  --cerulean-blue-50:  #252746;
+  --cerulean-blue-100: #373b71;
+  --cerulean-blue-200: #3f438e;
+  --cerulean-blue-300: #4c54b5;
+  --cerulean-blue-400: #5260be;
+  --cerulean-blue-500: #6679cb;
+  --cerulean-blue-600: #8399d7;
+  --cerulean-blue-700: #abbbe5;
+  --cerulean-blue-800: #cdd6f0;
+  --cerulean-blue-900: #e3e7f6;
+  --cerulean-blue-950: #f3f5fb;
+} */

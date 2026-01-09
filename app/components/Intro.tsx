@@ -63,7 +63,7 @@ export default function Intro({ setIntroDone }: IIntroDoneProps) {
 
   return (
     <div
-      className={`${ClashDisplayFont.variable} flex flex-col items-center justify-center h-[calc(100svh-1px)] border-b border-[#222323] bg-card py-[20px]`}
+      className={`${ClashDisplayFont.variable} flex flex-col items-center justify-center h-[calc(100svh-1px)] border-b border-[#222323] bg-intro-navbar py-[20px]`}
       style={{ fontFamily: "var(--font-clash-display)" }}
       ref={containerRef}
     >
@@ -73,7 +73,7 @@ export default function Intro({ setIntroDone }: IIntroDoneProps) {
 
       {showPara && (
         <div
-          className="text-[20px] overflow-x-hidden text-[hsl(0,0%,81%)] w-0 whitespace-nowrap pt-[7px] opacity-0 text-center"
+          className="text-[20px] overflow-x-hidden text-[hsl(204,14%,93%)] w-0 whitespace-nowrap pt-[7px] opacity-0 text-center"
           ref={taglineRef}
         >
           Because videos hit different together.

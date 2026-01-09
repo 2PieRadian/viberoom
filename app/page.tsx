@@ -10,11 +10,12 @@ export default function Home() {
 
   return (
     <div
-      className={`${ClashDisplayFont.variable}`}
+      className={`${ClashDisplayFont.variable} min-h-[100svh]`}
       style={{ fontFamily: "var(--font-clash-display)" }}
     >
       <Intro setIntroDone={setIntroDone} />
-      {introDone && <JoinOrCreateRoom />}
+
+      <div>{introDone && <JoinOrCreateRoom />}</div>
     </div>
   );
 }
