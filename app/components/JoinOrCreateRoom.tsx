@@ -23,7 +23,7 @@ const activeTabStyle = "bg-intro-navbar";
 
 export default function JoinOrCreateRoom() {
   const ref = useRef<HTMLDivElement>(null);
-  const [joinTab, setJoinTab] = useState(true);
+  const [joinTab, setJoinTab] = useState<"j" | "c">("j");
 
   useLayoutEffect(() => {
     gsap.fromTo(
@@ -51,23 +51,23 @@ export default function JoinOrCreateRoom() {
         <div className="flex items-center gap-[30px] pb-[10px] cursor-pointer text-[hsl(0,0%,81%)]">
           <div
             className={`JOIN_ROOM ${
-              joinTab && activeTabStyle
+              joinTab === "j" && activeTabStyle
             } text-[20px] px-[20px] py-[10px] rounded-[8px]`}
-            onClick={handleTabClick}
+            onClick={() => setJoinTab("j")}
           >
             Join Room
           </div>
           <div
             className={`CREATE_ROOM ${
-              !joinTab && activeTabStyle
+              joinTab === "c" && activeTabStyle
             } text-[20px] px-[20px] py-[10px] rounded-[8px]`}
-            onClick={handleTabClick}
+            onClick={() => setJoinTab("c")}
           >
-            Create Room
+            Create a Room
           </div>
         </div>
 
-        {joinTab ? <JoinRoomCard /> : <CreateRoomCard />}
+        {joinTab === "j" ? <JoinRoomCard /> : <CreateRoomCard />}
       </div>
     </div>
   );
