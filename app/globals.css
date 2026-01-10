@@ -6,8 +6,8 @@
 
   /* --card: rgb(23, 23, 23); */
   --intro-navbar: hsl(235, 69%, 58%);
-  --room-card: hsl(218, 11%, 14%);
-  --room-card-input: hsl(220, 17%, 14%);
+  --room-card: hsl(210, 7%, 11%);
+  --room-card-input: hsl(220, 13%, 14%);
   --room-card-input-border: hsl(219, 10%, 26%);
   --room-card-input-label: hsl(224, 25%, 83%);
 
