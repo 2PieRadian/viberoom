@@ -7,9 +7,10 @@
   /* --card: rgb(23, 23, 23); */
   --intro-navbar: hsl(235, 69%, 58%);
   --room-card: hsl(210, 7%, 11%);
-  --room-card-input: hsl(220, 13%, 14%);
+  --room-card-input: hsl(225, 7%, 11%);
   --room-card-input-border: hsl(219, 10%, 26%);
   --room-card-input-label: hsl(224, 25%, 83%);
+  --hover-tab: hsl(230, 9%, 13%);
 
   /* Cerulean Blue – Base Palette */
   --cerulean-blue-50: hsl(225, 50%, 97%);
@@ -23,19 +24,6 @@
   --cerulean-blue-800: hsl(237, 39%, 40%);
   --cerulean-blue-900: hsl(236, 35%, 33%);
   --cerulean-blue-950: hsl(236, 31%, 21%);
-
-  /* Typography scale – Major Third (1.25), base 16px */
-  --font-xs: 0.8rem; /* 12.8px */
-  --font-sm: 0.9rem; /* 14.4px */
-  --font-base: 1rem; /* 16px */
-
-  --font-md: 1.125rem; /* 18px */
-  --font-lg: 1.25rem; /* 20px */
-  --font-xl: 1.563rem; /* 25px */
-
-  --font-2xl: 1.953rem; /* 31.25px */
-  --font-3xl: 2.441rem; /* 39px */
-  --font-4xl: 3.052rem; /* 48.8px */
 }
 
 @theme inline {
@@ -45,36 +33,35 @@
   --font-mono: var(--font-geist-mono);
 
   /* Shadcn Colors */
-  --color-intro-navbar: var(--intro-navbar);
-  --color-room-card: var(--room-card);
-  --color-room-card-input: var(--room-card-input);
-  --color-room-card-input-border: var(--room-card-input-border);
-  --color-room-card-input-label: var(--room-card-input-label);
+  --color-intro-navbar: hsl(235, 69%, 58%);
+  --color-room-card: hsl(210, 7%, 11%);
+  --color-room-card-input: hsl(225, 7%, 11%);
+  --color-room-card-input-border: hsl(219, 10%, 26%);
+  --color-room-card-input-label: hsl(224, 25%, 83%);
+  --color-hover-tab: hsl(230, 9%, 13%);
 
-  --color-cerulean-blue-50: var(--cerulean-blue-50);
-  --color-cerulean-blue-100: var(--cerulean-blue-100);
-  --color-cerulean-blue-200: var(--cerulean-blue-200);
-  --color-cerulean-blue-300: var(--cerulean-blue-300);
-  --color-cerulean-blue-400: var(--cerulean-blue-400);
-  --color-cerulean-blue-500: var(--cerulean-blue-500);
-  --color-cerulean-blue-600: var(--cerulean-blue-600);
-  --color-cerulean-blue-700: var(--cerulean-blue-700);
-  --color-cerulean-blue-800: var(--cerulean-blue-800);
-  --color-cerulean-blue-900: var(--cerulean-blue-900);
-  --color-cerulean-blue-950: var(--cerulean-blue-950);
+  --color-cerulean-blue-50: hsl(225, 50%, 97%);
+  --color-cerulean-blue-100: hsl(227, 51%, 93%);
+  --color-cerulean-blue-200: hsl(225, 54%, 87%);
+  --color-cerulean-blue-300: hsl(223, 53%, 78%);
+  --color-cerulean-blue-400: hsl(224, 51%, 68%);
+  --color-cerulean-blue-500: hsl(229, 49%, 60%);
+  --color-cerulean-blue-600: hsl(232, 45%, 53%);
+  --color-cerulean-blue-700: hsl(235, 42%, 50%);
+  --color-cerulean-blue-800: hsl(237, 39%, 40%);
+  --color-cerulean-blue-900: hsl(236, 35%, 33%);
+  --color-cerulean-blue-950: hsl(236, 31%, 21%);
 
-  /* Font Sizes */
-  --text-xs: var(--font-xs);
-  --text-sm: var(--font-sm);
-  --text-base: var(--font-base);
-
-  --text-md: var(--font-md);
-  --text-lg: var(--font-lg);
-  --text-xl: var(--font-xl);
-
-  --text-2xl: var(--font-2xl);
-  --text-3xl: var(--font-3xl);
-  --text-4xl: var(--font-4xl);
+  /* Typography scale – Major Third (1.25), base 16px */
+  --text-xs: 0.8rem;
+  --text-sm: 0.9rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.563rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: 2.441rem;
+  --text-4xl: 3.052rem;
 }
 
 body {

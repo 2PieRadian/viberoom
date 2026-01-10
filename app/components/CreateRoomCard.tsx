@@ -1,6 +1,6 @@
 export default function CreateRoomCard() {
   return (
-    <div className="w-full bg-room-card rounded-[10px] p-[25px]">
+    <div className="w-full rounded-[10px] p-[25px] border-[1px] border-room-card">
       <div className="flex flex-col gap-[5px] w-full">
         <label
           htmlFor="roomName"
@@ -16,7 +16,7 @@ export default function CreateRoomCard() {
         />
       </div>
 
-      <div className="bg-cerulean-blue-700 max-w-[600px] text-md w-full rounded-[8px] mt-[15px] py-[10px] text-center cursor-pointer text-md">
+      <div className="bg-intro-navbar max-w-[600px] text-md w-full rounded-[8px] mt-[15px] py-[10px] text-center cursor-pointer text-md">
         Create Room
       </div>
     </div>

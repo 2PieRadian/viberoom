@@ -6,7 +6,7 @@ import { SatoshiFont } from "../fonts";
 import JoinRoomCard from "./JoinRoomCard";
 import CreateRoomCard from "./CreateRoomCard";
 
-const activeTabStyle = "bg-intro-navbar";
+const activeTabStyle = "bg-hover-tab";
 
 export default function JoinOrCreateRoom() {
   const ref = useRef<HTMLDivElement>(null);
@@ -36,7 +36,7 @@ export default function JoinOrCreateRoom() {
           <div
             className={`CREATE_ROOM ${
               tab === "c" && activeTabStyle
-            } text-md px-[20px] py-[10px] rounded-[8px]`}
+            } text-md px-[20px] py-[10px] rounded-[8px] border-[1px] border-hover-tab`}
             onClick={() => setTab("c")}
           >
             Create a Room
@@ -45,7 +45,7 @@ export default function JoinOrCreateRoom() {
           <div
             className={`JOIN_ROOM ${
               tab === "j" && activeTabStyle
-            } text-md px-[20px] py-[10px] rounded-[8px]`}
+            } text-md px-[20px] py-[10px] rounded-[8px] border-[1px] border-hover-tab`}
             onClick={() => setTab("j")}
           >
             Join Room
