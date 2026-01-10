@@ -27,14 +27,14 @@ export default function RoomHeader({ roomId }: { roomId: string }) {
           Room:
           <span
             className={`font-medium ${
-              copied ? "text-[#84e384]" : "text-[hsl(232,23%,80%)]"
+              copied ? "text-[#9fe09f]" : "text-[hsl(232,23%,80%)]"
             }`}
           >
             {roomId}
           </span>
           <div
             className={`flex items-center justify-center cursor-pointer p-[7px] rounded-[5px] bg-[#2a2838] transition-all duration-200 ${
-              copied ? "bg-[#3867485d]" : "bg-[#2a2838]"
+              copied ? "bg-[#33584282]" : "bg-[#302e3e9a]"
             }`}
             onClick={() => {
               navigator.clipboard.writeText(roomId);
@@ -46,7 +46,7 @@ export default function RoomHeader({ roomId }: { roomId: string }) {
             }}
           >
             {copied ? (
-              <CheckIcon className="w-4 h-4 text-[#68d668]" />
+              <CheckIcon className="w-4 h-4 text-[#97e497]" />
             ) : (
               <CopyIcon className="w-4 h-4 4fs567" />
             )}
