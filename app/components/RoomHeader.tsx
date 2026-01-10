@@ -17,7 +17,9 @@ export default function RoomHeader({ roomId }: { roomId: string }) {
         style={{ fontFamily: "var(--font-clash-display)" }}
       >
         <h1 className="text-[clamp(20px,6vw,25px)]">viberoom</h1>
-        <p className="text-[clamp(12px,6vw,14px)] mt-[-6px]">Just sync.</p>
+        <p className="text-[clamp(12px,6vw,14px)] mt-[-6px] text-[hsl(232,23%,80%)]">
+          Just sync.
+        </p>
       </div>
 
       <div className="flex items-center gap-2s">
@@ -40,7 +42,7 @@ export default function RoomHeader({ roomId }: { roomId: string }) {
 
               setTimeout(() => {
                 setCopied(false);
-              }, 3000);
+              }, 1500);
             }}
           >
             {copied ? (
