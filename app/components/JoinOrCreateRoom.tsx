@@ -5,10 +5,15 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { SatoshiFont } from "../fonts";
 import JoinRoomCard from "./JoinRoomCard";
 import CreateRoomCard from "./CreateRoomCard";
+import { Socket } from "socket.io-client";
 
 const activeTabStyle = "bg-hover-tab";
 
-export default function JoinOrCreateRoom() {
+interface JoinOrCreateRoomProps {
+  socket: Socket | null;
+}
+
+export default function JoinOrCreateRoom({ socket }: JoinOrCreateRoomProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [tab, setTab] = useState<"j" | "c">("c");
 
@@ -52,7 +57,11 @@ export default function JoinOrCreateRoom() {
           </div>
         </div>
 
-        {tab === "j" ? <JoinRoomCard /> : <CreateRoomCard />}
+        {tab === "j" ? (
+          <JoinRoomCard socket={socket} />
+        ) : (
+          <CreateRoomCard socket={socket} />
+        )}
       </div>
     </div>
   );

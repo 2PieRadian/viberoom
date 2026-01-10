@@ -1,19 +1,33 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Socket } from "socket.io-client";
 
-export default function CreateRoomCard() {
+interface CreateRoomCardProps {
+  socket: Socket | null;
+}
+
+interface CreateRoomData {
+  roomName: string;
+  username: string;
+}
+
+export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
   const [roomName, setRoomName] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
   function handleCreate() {
-    if (roomName.trim() === "" || name.trim() === "") {
+    // if (!socket) return;
+
+    if (roomName.trim() === "" || username.trim() === "") {
       setError("Fields cannot be empty");
       return;
     }
 
     setError("");
+
+    socket?.emit("create-room", { roomName, username } as CreateRoomData);
   }
 
   return (
@@ -48,8 +62,8 @@ export default function CreateRoomCard() {
             id="name"
             className="bg-room-card-input max-w-[600px] text-md w-full px-[16px] border-[1px] border-room-card-input-border rounded-[8px] px-[10px] py-[8px]"
             placeholder="Enter a name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 

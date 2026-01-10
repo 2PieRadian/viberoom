@@ -1,18 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Socket } from "socket.io-client";
 
-export default function JoinRoomCard() {
+interface JoinRoomCardProps {
+  socket: Socket | null;
+}
+
+interface JoinRoomData {
+  roomId: string;
+  username: string;
+}
+
+export default function JoinRoomCard({ socket }: JoinRoomCardProps) {
   const [roomId, setRoomId] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("room-not-found", () => {
+      setError("Room not found. Please check the Room ID and try again.");
+    });
+
+    return () => {
+      socket.off("room-not-found");
+    };
+  }, []);
+
   function handleJoin() {
-    if (roomId.trim() === "" || name.trim() === "") {
+    if (roomId.trim() === "" || username.trim() === "") {
       setError("Fields cannot be empty");
       return;
     }
+
     setError("");
+
+    socket?.emit("join-room", { roomId, username } as JoinRoomData);
   }
 
   return (
@@ -47,8 +72,8 @@ export default function JoinRoomCard() {
             id="name"
             className="bg-room-card-input max-w-[600px] text-md w-full px-[16px] border-[1px] border-room-card-input-border rounded-[8px] px-[10px] py-[8px]"
             placeholder="Enter a name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 
