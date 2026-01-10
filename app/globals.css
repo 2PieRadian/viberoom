@@ -5,13 +5,13 @@
   --foreground: #ffffff;
 
   /* --card: rgb(23, 23, 23); */
-  --intro-navbar: hsl(235, 69%, 58%);
+  --intro-navbar: hsl(245, 64%, 53%);
   --room-card: hsl(210, 7%, 11%);
   --room-card-input: hsl(225, 7%, 11%);
   --room-card-input-border: hsl(219, 10%, 26%);
   --room-card-input-label: hsl(224, 25%, 83%);
   --hover-tab: hsl(230, 9%, 13%);
-  --color-create-join-border: #282828;
+  --color-create-join-border: #27292c;
   --color-card-2nd: #202020;
 
   /* Cerulean Blue – Base Palette */
@@ -35,13 +35,13 @@
   --font-mono: var(--font-geist-mono);
 
   /* Shadcn Colors */
-  --color-intro-navbar: hsl(235, 69%, 58%);
+  --color-intro-navbar: hsl(245, 64%, 53%);
   --color-room-card: hsl(210, 7%, 11%);
   --color-room-card-input: hsl(225, 7%, 11%);
   --color-room-card-input-border: hsl(219, 10%, 26%);
   --color-room-card-input-label: hsl(224, 25%, 83%);
   --color-hover-tab: hsl(230, 9%, 13%);
-  --color-create-join-border: #282828;
+  --color-create-join-border: #27292c;
 
   --color-cerulean-blue-50: hsl(225, 50%, 97%);
   --color-cerulean-blue-100: hsl(227, 51%, 93%);

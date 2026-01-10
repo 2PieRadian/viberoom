@@ -15,7 +15,7 @@ export default function Home() {
     >
       <Intro setIntroDone={setIntroDone} />
 
-      <div>{introDone && <JoinOrCreateRoom />}</div>
+      <div className="px-[20px]">{introDone && <JoinOrCreateRoom />}</div>
     </div>
   );
 }
