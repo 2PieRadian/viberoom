@@ -23,10 +23,16 @@ export default function RoomHeader({ roomId }: { roomId: string }) {
       <div className="flex items-center gap-2s">
         <h1 className="text-md flex items-center gap-2">
           Room:
-          <span className="font-medium text-[hsl(232,58%,80%)]"> {roomId}</span>
+          <span
+            className={`font-medium ${
+              copied ? "text-[#67ce67]" : "text-[hsl(232,58%,80%)]"
+            }`}
+          >
+            {roomId}
+          </span>
           <div
             className={`flex items-center justify-center cursor-pointer p-[7px] rounded-[5px] bg-[#2a2838] transition-all duration-200 ${
-              copied ? "bg-[#49b96e53]" : "bg-[#2a2838]"
+              copied ? "bg-[#356c488d]" : "bg-[#2a2838]"
             }`}
             onClick={() => {
               navigator.clipboard.writeText(roomId);
@@ -34,11 +40,11 @@ export default function RoomHeader({ roomId }: { roomId: string }) {
 
               setTimeout(() => {
                 setCopied(false);
-              }, 2000);
+              }, 3000);
             }}
           >
             {copied ? (
-              <CheckIcon className="w-4 h-4 text-[#00ff00]" />
+              <CheckIcon className="w-4 h-4 text-[#1bc21b]" />
             ) : (
               <CopyIcon className="w-4 h-4 text-[#9fa6d9]" />
             )}
