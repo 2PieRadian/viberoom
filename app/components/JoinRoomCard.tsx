@@ -1,6 +1,6 @@
 export default function JoinRoomCard() {
   return (
-    <div className="w-full rounded-[10px] p-[25px] border-[1px] border-room-card">
+    <div className="max-w-[600px] w-full rounded-[10px] p-[25px] border-[1px] border-room-card">
       <div className="flex flex-col gap-[5px] w-full">
         <label
           htmlFor="roomId"

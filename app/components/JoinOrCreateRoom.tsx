@@ -22,7 +22,7 @@ export default function JoinOrCreateRoom() {
 
   return (
     <div
-      className={`${SatoshiFont.variable} max-w-[1300px] mx-auto py-[35px] px-[clamp(20px,6vw+1px,30px)] flex flex-col`}
+      className={`${SatoshiFont.variable} border border-create-join-border rounded-[15px] mt-[50px] max-w-[600px] mx-auto py-[35px] px-[clamp(20px,6vw+1px,30px)] flex flex-col`}
       style={{ fontFamily: "var(--font-satoshi)" }}
       ref={ref}
     >

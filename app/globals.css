@@ -11,6 +11,8 @@
   --room-card-input-border: hsl(219, 10%, 26%);
   --room-card-input-label: hsl(224, 25%, 83%);
   --hover-tab: hsl(230, 9%, 13%);
+  --color-create-join-border: #282828;
+  --color-card-2nd: #202020;
 
   /* Cerulean Blue – Base Palette */
   --cerulean-blue-50: hsl(225, 50%, 97%);
@@ -39,6 +41,7 @@
   --color-room-card-input-border: hsl(219, 10%, 26%);
   --color-room-card-input-label: hsl(224, 25%, 83%);
   --color-hover-tab: hsl(230, 9%, 13%);
+  --color-create-join-border: #282828;
 
   --color-cerulean-blue-50: hsl(225, 50%, 97%);
   --color-cerulean-blue-100: hsl(227, 51%, 93%);
