@@ -25,7 +25,9 @@ export default function RoomHeader({ roomId }: { roomId: string }) {
           Room:
           <span className="font-medium text-[hsl(232,58%,80%)]"> {roomId}</span>
           <div
-            className="flex items-center justify-center cursor-pointer p-[7px] rounded-[5px] bg-[#2a2838] transition-all duration-200"
+            className={`flex items-center justify-center cursor-pointer p-[7px] rounded-[5px] bg-[#2a2838] transition-all duration-200 ${
+              copied ? "bg-[#49b96e53]" : "bg-[#2a2838]"
+            }`}
             onClick={() => {
               navigator.clipboard.writeText(roomId);
               setCopied(true);
