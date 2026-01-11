@@ -36,6 +36,10 @@ export default function RoomPage() {
     socket.on("join-room-success", () => {
       setHasJoinedRoom(true);
     });
+
+    socket.on("join-room-state", (roomData) => {
+      console.log(roomData);
+    });
   }, []);
 
   if (!roomExists) {

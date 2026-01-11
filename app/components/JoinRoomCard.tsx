@@ -1,39 +1,44 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
-import { joinRoom } from "../lib/socket";
+import { CheckRoomExistsResponse } from "../lib/types";
 
 interface JoinRoomCardProps {
   socket: Socket | null;
 }
 
 export default function JoinRoomCard({ socket }: JoinRoomCardProps) {
+  const router = useRouter();
   const [roomId, setRoomId] = useState("");
-  const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("room-not-found", () => {
-      setError("Room not found. Please check the Room ID and try again.");
+    socket.on("room-exists-response", ({ exists }: CheckRoomExistsResponse) => {
+      if (!exists) {
+        setError("Room not found. Please check the Room ID and try again.");
+        return;
+      }
+
+      router.push(`/room/${roomId}`);
     });
 
     return () => {
-      socket.off("room-not-found");
+      socket.off("room-exists-response");
     };
-  }, []);
+  }, [roomId, router, socket]);
 
   function handleJoin() {
-    if (roomId.trim() === "" || username.trim() === "") {
-      setError("Fields cannot be empty");
+    if (roomId.trim() === "") {
+      setError("Room ID cannot be empty");
       return;
     }
 
     setError("");
-
-    joinRoom({ roomId, username });
+    socket?.emit("check-room-exists", roomId);
   }
 
   return (
@@ -53,23 +58,6 @@ export default function JoinRoomCard({ socket }: JoinRoomCardProps) {
             placeholder="Enter room id here"
             value={roomId}
             onChange={(e) => setRoomId(e.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col gap-[2px] w-full">
-          <label
-            htmlFor="name"
-            className="text-base text-room-card-input-label"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            className="bg-room-card-input max-w-[600px] text-md w-full px-[16px] border-[1px] border-room-card-input-border rounded-[8px] px-[10px] py-[8px]"
-            placeholder="Enter a name"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 
