@@ -1,63 +1,14 @@
 "use client";
 
+import AskUserNameModal from "@/app/components/modals/AskUserNameModal";
 import RoomHeader from "@/app/components/RoomHeader";
 import VideoContainer from "@/app/components/VideoContainer";
 import { SatoshiFont } from "@/app/fonts";
-import { checkRoomExists, getSocket, joinRoom } from "@/app/lib/socket";
+import { checkRoomExists, getSocket } from "@/app/lib/socket";
 import { CheckRoomExistsResponse } from "@/app/lib/types";
-import { extractYouTubeVideoId } from "@/app/lib/utils";
-import loadYoutubeIframeAPI from "@/app/lib/youtube";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-
-function AskUserNameModal({
-  username,
-  setUsername,
-  setAskUserNameModalOpen,
-  roomId,
-}: {
-  roomId: string;
-  username: string;
-  setUsername: (username: string) => void;
-  setAskUserNameModalOpen: (open: boolean) => void;
-}) {
-  const [error, setError] = useState("");
-
-  function handleSubmitUserName() {
-    if (username.trim() === "") {
-      setError("Username cannot be empty");
-      return;
-    }
-
-    setError("");
-
-    setAskUserNameModalOpen(false);
-    joinRoom({ roomId, username });
-  }
-  return (
-    <div className="absolute inset-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
-      <div className="flex flex-col gap-[10px] bg-black p-[20px] rounded-[10px]">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          placeholder="Enter a name"
-          className="bg-black text-white border-[1px] border-white rounded-[5px] p-[5px] w-full"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <div
-          className="bg-intro-navbar max-w-[600px] text-md w-full rounded-[8px] mt-[10px] py-[10px] text-center cursor-pointer text-md"
-          onClick={handleSubmitUserName}
-        >
-          Submit
-        </div>
-        {error && <p className="text-red-400 text-sm">{error}</p>}
-      </div>
-    </div>
-  );
-}
+import { useEffect, useState } from "react";
 
 export default function RoomPage() {
   const { roomId } = useParams<{ roomId: string }>();
