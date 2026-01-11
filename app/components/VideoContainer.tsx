@@ -105,8 +105,6 @@ export default function VideoContainer({
   useEffect(() => {
     if (!playerRef.current) return;
 
-    console.log("Room data:", roomData);
-
     if (roomData.isPlaying) {
       // playerRef.current.seekTo(roomData.currentTime);
       playerRef.current.playVideo();

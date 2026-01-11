@@ -86,7 +86,7 @@ function InteractionCard({ interaction }: { interaction: Interaction }) {
         };
 
   return (
-    <div className="flex items-start justify-between gap-[10px] rounded-[10px] border border-video-player-border/60 bg-live-chat-inner-bg/70 px-[12px] py-[10px]">
+    <div className="flex items-start justify-between border border-video-player-border/60 bg-live-chat-inner-bg/70 px-[12px]">
       <span className="text-sm text-[hsl(207,18%,90%)] truncate">
         <span className="font-semibold">{interaction.username}</span>{" "}
         <span className="opacity-80">{meta.message}</span>
@@ -127,7 +127,7 @@ function InteractionHistory({ interactions }: { interactions: Interaction[] }) {
       ) : (
         <div
           ref={listRef}
-          className="flex max-h-[220px] flex-col gap-[8px] overflow-y-auto custom-scrollbar pr-[4px] bg-live-chat-inner-bg"
+          className="flex max-h-[220px] flex-col gap-[8px] py-[10px] overflow-y-auto custom-scrollbar pr-[4px] bg-live-chat-inner-bg"
         >
           {interactions.map((interaction, idx) => (
             <InteractionCard
