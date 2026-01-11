@@ -19,16 +19,16 @@ export default function Home() {
     socket.on("connect", () => {
       console.log("Connected with Socket ID:", socket.id);
       setSocket(socket);
+
+      socket.on("disconnect", () => {
+        console.log("Disconnected from server");
+      });
     });
 
     socket.on("join-room-success", ({ roomId }: { roomId: string }) => {
       router.push(`/room/${roomId}`);
       console.log(roomId);
     });
-
-    return () => {
-      socket.disconnect();
-    };
   }, []);
 
   return (
