@@ -34,7 +34,7 @@ export default function RoomHeader({ roomId }: { roomId: string }) {
           </span>
           <div
             className={`flex items-center justify-center cursor-pointer p-[7px] bg-[#2a2838] transition-all duration-200 ${
-              copied ? "bg-[#33584282]" : "bg-[#302e3e9a]"
+              copied ? "bg-[#33584282]" : "bg-copy-icon-bg"
             }`}
             onClick={() => {
               navigator.clipboard.writeText(roomId);

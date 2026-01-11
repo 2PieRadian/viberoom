@@ -14,6 +14,8 @@
   --color-create-join-border: #27292c;
   --color-card-2nd: #202020;
   --color-video-player-border: hsl(270, 7%, 11%);
+  --color-copy-icon-bg: hsla(260, 16%, 23%, 0.604);
+  --color-copy-icon-bg-hover: hsl(263, 16%, 19%);
   --color-live-chat-bg: hsl(270, 6%, 7%);
   --color-live-chat-inner-bg: hsl(270, 6%, 11%);
   --color-loading-spinner-bg: hsl(270, 6%, 7%);
@@ -48,6 +50,7 @@
   --color-hover-tab: hsl(253, 10%, 17%);
   --color-create-join-border: #27292c;
   --color-video-player-border: hsl(270, 7%, 11%);
+  --color-copy-icon-bg: hsla(248, 15%, 21%, 0.604);
   --color-live-chat-bg: hsl(270, 6%, 7%);
   --color-live-chat-inner-bg: hsl(270, 6%, 11%);
   --color-loading-spinner-bg: hsl(270, 6%, 7%);
@@ -94,12 +97,12 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: hsl(266, 17%, 16%);
+  background-color: var(--color-copy-icon-bg);
   border-radius: 10px;
   border: 1px solid hsl(264, 6%, 16%);
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: hsl(267, 19%, 20%);
+  background: var(--color-copy-icon-bg-hover);
 }
 
 /* @media (prefers-color-scheme: dark) {

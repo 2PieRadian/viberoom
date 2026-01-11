@@ -2,14 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
+import { joinRoom } from "../lib/socket";
 
 interface JoinRoomCardProps {
   socket: Socket | null;
-}
-
-interface JoinRoomData {
-  roomId: string;
-  username: string;
 }
 
 export default function JoinRoomCard({ socket }: JoinRoomCardProps) {
@@ -37,7 +33,7 @@ export default function JoinRoomCard({ socket }: JoinRoomCardProps) {
 
     setError("");
 
-    socket?.emit("join-room", { roomId, username } as JoinRoomData);
+    joinRoom({ roomId, username });
   }
 
   return (
