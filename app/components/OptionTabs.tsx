@@ -1,8 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { extractYouTubeVideoId, getRandomImageUrl } from "../lib/utils";
-import { Member, RoomData } from "../lib/types";
+import { useEffect, useRef, useState } from "react";
+import {
+  extractYouTubeVideoId,
+  formatSeconds,
+  getRandomImageUrl,
+} from "../lib/utils";
+import { Interaction, Member, RoomData } from "../lib/types";
 import { getSocket } from "../lib/socket";
 
 function LiveChatTab() {
@@ -19,10 +23,12 @@ function LiveChatTab() {
 
 function ParticipantsTab({ participants }: { participants: Member[] }) {
   return (
-    <div className="h-full flex flex-col gap-[10px]">
-      <h1 className="text-base font-medium">Participants</h1>
+    <div className="max-h-full flex flex-col gap-[10px]">
+      <h1 className="text-base font-medium">
+        Participants ({participants.length})
+      </h1>
 
-      <div className="flex h-[300px] flex-col gap-[10px] overflow-y-scroll custom-scrollbar">
+      <div className="flex max-h-[240px] flex-col gap-[10px] overflow-y-scroll custom-scrollbar">
         {participants?.map((participant: Member) => (
           <ParticipantCard
             key={participant.socketId}
@@ -59,11 +65,91 @@ function ParticipantCard({ name }: { name: string }) {
   );
 }
 
-interface OptionTabsProps {
-  roomData: RoomData;
+function InteractionCard({ interaction }: { interaction: Interaction }) {
+  const meta =
+    interaction.type === "play"
+      ? {
+          label: "Play",
+          dot: "bg-emerald-400",
+          message: "played the video",
+        }
+      : interaction.type === "pause"
+      ? {
+          label: "Pause",
+          dot: "bg-amber-400",
+          message: "paused the video",
+        }
+      : {
+          label: "Seek",
+          dot: "bg-sky-400",
+          message: `seeked to ${formatSeconds(interaction.time)}`,
+        };
+
+  return (
+    <div className="flex items-start justify-between gap-[10px] rounded-[10px] border border-video-player-border/60 bg-live-chat-inner-bg/70 px-[12px] py-[10px]">
+      <span className="text-sm text-[hsl(207,18%,90%)] truncate">
+        <span className="font-semibold">{interaction.username}</span>{" "}
+        <span className="opacity-80">{meta.message}</span>
+      </span>
+
+      <div className="shrink-0 text-[12px] text-room-card-input-label/80">
+        {formatSeconds(interaction.time)}
+      </div>
+    </div>
+  );
 }
 
-export default function OptionTabs({ roomData }: OptionTabsProps) {
+function InteractionHistory({ interactions }: { interactions: Interaction[] }) {
+  const listRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+    if (interactions.length === 0) return;
+
+    // Auto-scroll to the newest interaction
+    el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, [interactions.length]);
+
+  return (
+    <div className="flex flex-col gap-[10px]">
+      <div className="flex items-center justify-between">
+        <h1 className="text-base font-medium">Interaction History</h1>
+        <span className="text-xs text-room-card-input-label/70">
+          {interactions.length}
+        </span>
+      </div>
+
+      {interactions.length === 0 ? (
+        <div className="rounded-[10px] border border-video-player-border/60 bg-live-chat-inner-bg/40 px-[12px] py-[12px] text-sm text-room-card-input-label/80">
+          No interactions yet. Play, pause, or seek to start the history.
+        </div>
+      ) : (
+        <div
+          ref={listRef}
+          className="flex max-h-[220px] flex-col gap-[8px] overflow-y-auto custom-scrollbar pr-[4px] bg-live-chat-inner-bg"
+        >
+          {interactions.map((interaction, idx) => (
+            <InteractionCard
+              key={`${interaction.type}-${interaction.time}-${interaction.username}-${idx}`}
+              interaction={interaction}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface OptionTabsProps {
+  roomData: RoomData;
+  interactions: Interaction[];
+}
+
+export default function OptionTabs({
+  roomData,
+  interactions,
+}: OptionTabsProps) {
   const participants = roomData?.members;
   const [tab, setTab] = useState<"participants" | "live-chat">("participants");
   const [youtubeLink, setYoutubeLink] = useState<string | "">("");
@@ -103,6 +189,8 @@ export default function OptionTabs({ roomData }: OptionTabsProps) {
       ) : (
         <ParticipantsTab participants={participants} />
       )}
+
+      <InteractionHistory interactions={interactions} />
     </div>
   );
 }

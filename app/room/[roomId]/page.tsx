@@ -6,7 +6,11 @@ import RoomName from "@/app/components/RoomName";
 import VideoContainer from "@/app/components/VideoContainer";
 import { SatoshiFont } from "@/app/fonts";
 import { checkRoomExists, getSocket } from "@/app/lib/socket";
-import { CheckRoomExistsResponse, RoomData } from "@/app/lib/types";
+import {
+  CheckRoomExistsResponse,
+  Interaction,
+  RoomData,
+} from "@/app/lib/types";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -15,6 +19,7 @@ export default function RoomPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const [roomExists, setRoomExists] = useState(false);
   const [hasJoinedRoom, setHasJoinedRoom] = useState(false);
+  const [interactions, setInteractions] = useState<Interaction[]>([]);
 
   const router = useRouter();
 
@@ -44,6 +49,18 @@ export default function RoomPage() {
       setRoomData(roomState);
     });
 
+    // When someone plays, pauses, or seeks the video, update the interactions
+    socket.on(
+      "interaction-update",
+      (interaction: Interaction, roomId: string) => {
+        setInteractions((prevInteractions) => [
+          ...prevInteractions,
+          interaction,
+        ]);
+        console.log("Interaction updated:", interaction);
+      }
+    );
+
     checkRoomExists(roomId);
   }, []);
 
@@ -72,7 +89,10 @@ export default function RoomPage() {
 
       <RoomName roomName={roomData?.roomName} />
 
-      <VideoContainer roomData={roomData as RoomData} />
+      <VideoContainer
+        roomData={roomData as RoomData}
+        interactions={interactions}
+      />
     </div>
   );
 }

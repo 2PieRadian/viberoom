@@ -6,17 +6,27 @@ import Loader from "./Loader";
 import { SatoshiFont } from "../fonts";
 import OptionTabs from "./OptionTabs";
 import loadYoutubeIframeAPI from "../lib/youtube";
-import { RoomData } from "../lib/types";
+import { Interaction, RoomData } from "../lib/types";
+import { getSocket } from "../lib/socket";
 
 interface VideoContainerProps {
   roomData: RoomData;
+  interactions: Interaction[];
 }
 
-export default function VideoContainer({ roomData }: VideoContainerProps) {
+export default function VideoContainer({
+  roomData,
+  interactions,
+}: VideoContainerProps) {
   const [loading, setLoading] = useState(true);
 
   const playerRef = useRef<any>(null);
   const initializedRef = useRef(false);
+  const socket = getSocket();
+
+  const username = roomData.members.find(
+    (member) => member.socketId === socket.id
+  )?.username;
 
   useEffect(() => {
     async function setupPlayer() {
@@ -31,7 +41,42 @@ export default function VideoContainer({ roomData }: VideoContainerProps) {
           rel: 0,
         },
         events: {
-          onReady: () => setLoading(false),
+          onReady: () => {
+            setLoading(false);
+
+            if (roomData.isPlaying) {
+              playerRef.current.playVideo();
+            }
+          },
+          onStateChange: (event: any) => {
+            const playerState = event.data;
+
+            if (playerState === window.YT.PlayerState.PLAYING) {
+              socket.emit("play-video", {
+                roomId: roomData.roomId,
+                currentTime: playerRef.current.getCurrentTime(),
+              });
+
+              socket.emit("interaction-update", {
+                type: "play",
+                time: playerRef.current.getCurrentTime(),
+                username: username,
+              });
+            }
+
+            if (playerState === window.YT.PlayerState.PAUSED) {
+              socket.emit("pause-video", {
+                roomId: roomData.roomId,
+                currentTime: playerRef.current.getCurrentTime(),
+              });
+
+              socket.emit("interaction-update", {
+                type: "pause",
+                time: playerRef.current.getCurrentTime(),
+                username: username,
+              });
+            }
+          },
         },
       });
 
@@ -49,11 +94,27 @@ export default function VideoContainer({ roomData }: VideoContainerProps) {
     };
   }, []);
 
+  // If the videoId changes, load the new video
   useEffect(() => {
     if (playerRef.current) {
       playerRef.current.loadVideoById(roomData?.videoId ?? "");
     }
   }, [roomData?.videoId]);
+
+  // If the video is playing or paused, update the room data
+  useEffect(() => {
+    if (!playerRef.current) return;
+
+    console.log("Room data:", roomData);
+
+    if (roomData.isPlaying) {
+      // playerRef.current.seekTo(roomData.currentTime);
+      playerRef.current.playVideo();
+    } else {
+      // playerRef.current.seekTo(roomData.currentTime);
+      playerRef.current.pauseVideo();
+    }
+  }, [roomData.isPlaying]);
 
   return (
     <div
@@ -73,7 +134,7 @@ export default function VideoContainer({ roomData }: VideoContainerProps) {
         </div>
       </div>
 
-      <OptionTabs roomData={roomData} />
+      <OptionTabs roomData={roomData} interactions={interactions} />
     </div>
   );
 }

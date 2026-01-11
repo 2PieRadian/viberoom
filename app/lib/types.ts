@@ -21,3 +21,9 @@ export interface RoomData {
   videoId: string;
   members: Member[];
 }
+
+export interface Interaction {
+  type: "play" | "pause" | "seek";
+  time: number;
+  username: string;
+}
