@@ -2,6 +2,7 @@
 
 import RoomHeader from "@/app/components/RoomHeader";
 import VideoContainer from "@/app/components/VideoContainer";
+import { extractYouTubeVideoId } from "@/app/lib/utils";
 import loadYoutubeIframeAPI from "@/app/lib/youtube";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -52,10 +53,25 @@ export default function RoomPage() {
     };
   }, []);
 
+  function handleVideoIdChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const videoId = extractYouTubeVideoId(e.target.value);
+
+    if (videoId) {
+      setVideoId(videoId);
+      playerRef.current.loadVideoById(videoId);
+    }
+  }
+
   return (
     <div className="max-w-[1700px] w-full mx-auto">
       <RoomHeader roomId={roomId} />
-      <VideoContainer videoId={videoId} loading={loading} />
+
+      <VideoContainer
+        videoId={videoId}
+        loading={loading}
+        setVideoId={setVideoId}
+        handleVideoIdChange={handleVideoIdChange}
+      />
 
       <Link href={`/`}>Change</Link>
     </div>

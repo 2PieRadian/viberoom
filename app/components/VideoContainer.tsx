@@ -1,17 +1,26 @@
 "use client";
-import { SatoshiFont } from "../fonts";
+
+import { useState } from "react";
+
 import Loader from "./Loader";
+import { SatoshiFont } from "../fonts";
 import OptionTabs from "./OptionTabs";
 
 interface VideoContainerProps {
   videoId: string;
   loading: boolean;
+  setVideoId: (videoId: string) => void;
+  handleVideoIdChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function VideoContainer({
   videoId,
   loading,
+  setVideoId,
+  handleVideoIdChange,
 }: VideoContainerProps) {
+  const [collapse, setCollapse] = useState(false);
+
   return (
     <div
       className={`${SatoshiFont.variable} w-full flex lg:flex-row flex-col gap-[5px] p-[5px]`}
@@ -30,7 +39,13 @@ export default function VideoContainer({
         </div>
       </div>
 
-      <OptionTabs />
+      <OptionTabs
+        collapse={collapse}
+        setCollapse={setCollapse}
+        videoId={videoId}
+        setVideoId={setVideoId}
+        handleVideoIdChange={handleVideoIdChange}
+      />
     </div>
   );
 }
