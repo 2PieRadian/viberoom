@@ -1,6 +1,5 @@
 "use client";
 
-import Loader from "@/app/components/Loader";
 import RoomHeader from "@/app/components/RoomHeader";
 import VideoContainer from "@/app/components/VideoContainer";
 import { SatoshiFont } from "@/app/fonts";
@@ -8,7 +7,6 @@ import { checkRoomExists, getSocket, joinRoom } from "@/app/lib/socket";
 import { CheckRoomExistsResponse } from "@/app/lib/types";
 import { extractYouTubeVideoId } from "@/app/lib/utils";
 import loadYoutubeIframeAPI from "@/app/lib/youtube";
-import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -17,13 +15,28 @@ function AskUserNameModal({
   username,
   setUsername,
   setAskUserNameModalOpen,
+  roomId,
 }: {
+  roomId: string;
   username: string;
   setUsername: (username: string) => void;
   setAskUserNameModalOpen: (open: boolean) => void;
 }) {
+  const [error, setError] = useState("");
+
+  function handleSubmitUserName() {
+    if (username.trim() === "") {
+      setError("Username cannot be empty");
+      return;
+    }
+
+    setError("");
+
+    setAskUserNameModalOpen(false);
+    joinRoom({ roomId, username });
+  }
   return (
-    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="absolute inset-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
       <div className="flex flex-col gap-[10px] bg-black p-[20px] rounded-[10px]">
         <label htmlFor="username">Username</label>
         <input
@@ -34,9 +47,13 @@ function AskUserNameModal({
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <button type="submit" onClick={() => setAskUserNameModalOpen(false)}>
+        <div
+          className="bg-intro-navbar max-w-[600px] text-md w-full rounded-[8px] mt-[10px] py-[10px] text-center cursor-pointer text-md"
+          onClick={handleSubmitUserName}
+        >
           Submit
-        </button>
+        </div>
+        {error && <p className="text-red-400 text-sm">{error}</p>}
       </div>
     </div>
   );
@@ -44,15 +61,11 @@ function AskUserNameModal({
 
 export default function RoomPage() {
   const { roomId } = useParams<{ roomId: string }>();
-  const [videoId, setVideoId] = useState<string>("Csy6Vd33cYI");
-  const [loading, setLoading] = useState(true);
   const [roomExists, setRoomExists] = useState(false);
-
-  const playerRef = useRef<any>(null);
-  const initializedRef = useRef(false);
+  const [hasJoinedRoom, setHasJoinedRoom] = useState(false);
 
   const [username, setUsername] = useState("");
-  const [askUserNameModalOpen, setAskUserNameModalOpen] = useState(false);
+  const [askUserNameModalOpen, setAskUserNameModalOpen] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -69,50 +82,10 @@ export default function RoomPage() {
       setRoomExists(exists);
     });
 
-    async function setupPlayer() {
-      if (initializedRef.current) return;
-
-      await loadYoutubeIframeAPI();
-
-      playerRef.current = new window.YT.Player("video-container", {
-        videoId: videoId,
-        playerVars: {
-          controls: 1,
-          rel: 0,
-        },
-        events: {
-          onReady: () => setLoading(false),
-        },
-      });
-
-      initializedRef.current = true;
-
-      // Logs
-      console.log("YouTube player initialized with video ID:", videoId);
-    }
-
-    setupPlayer();
-    joinRoom({ roomId, username });
-
-    return () => {
-      if (playerRef.current) {
-        playerRef.current.destroy();
-        playerRef.current = null;
-
-        // Logs
-        console.log("YouTube player destroyed.");
-      }
-    };
+    socket.on("join-room-success", () => {
+      setHasJoinedRoom(true);
+    });
   }, []);
-
-  function handleVideoIdChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const videoId = extractYouTubeVideoId(e.target.value);
-
-    if (videoId) {
-      setVideoId(videoId);
-      playerRef.current.loadVideoById(videoId);
-    }
-  }
 
   if (!roomExists) {
     return (
@@ -129,16 +102,22 @@ export default function RoomPage() {
     );
   }
 
+  if (!hasJoinedRoom) {
+    return (
+      <AskUserNameModal
+        roomId={roomId as string}
+        username={username}
+        setUsername={setUsername}
+        setAskUserNameModalOpen={setAskUserNameModalOpen}
+      />
+    );
+  }
+
   return (
     <div className="max-w-[1700px] w-full mx-auto">
       <RoomHeader roomId={roomId} />
 
-      <VideoContainer
-        videoId={videoId}
-        loading={loading}
-        setVideoId={setVideoId}
-        handleVideoIdChange={handleVideoIdChange}
-      />
+      <VideoContainer />
 
       <Link href={`/`}>Change</Link>
     </div>

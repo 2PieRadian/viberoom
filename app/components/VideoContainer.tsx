@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Loader from "./Loader";
 import { SatoshiFont } from "../fonts";
 import OptionTabs from "./OptionTabs";
+import loadYoutubeIframeAPI from "../lib/youtube";
+import { extractYouTubeVideoId } from "../lib/utils";
 
 interface VideoContainerProps {
   videoId: string;
@@ -13,13 +15,58 @@ interface VideoContainerProps {
   handleVideoIdChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function VideoContainer({
-  videoId,
-  loading,
-  setVideoId,
-  handleVideoIdChange,
-}: VideoContainerProps) {
+export default function VideoContainer() {
   const [collapse, setCollapse] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const playerRef = useRef<any>(null);
+  const initializedRef = useRef(false);
+  const [videoId, setVideoId] = useState<string>("Csy6Vd33cYI");
+
+  function handleVideoIdChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const videoId = extractYouTubeVideoId(e.target.value);
+
+    if (videoId) {
+      setVideoId(videoId);
+      playerRef.current.loadVideoById(videoId);
+    }
+  }
+
+  useEffect(() => {
+    async function setupPlayer() {
+      if (initializedRef.current) return;
+
+      await loadYoutubeIframeAPI();
+
+      playerRef.current = new window.YT.Player("video-container", {
+        videoId: videoId,
+        playerVars: {
+          controls: 1,
+          rel: 0,
+        },
+        events: {
+          onReady: () => setLoading(false),
+        },
+      });
+
+      initializedRef.current = true;
+
+      // Logs
+      console.log("YouTube player initialized with video ID:", videoId);
+    }
+
+    setupPlayer();
+
+    return () => {
+      if (playerRef.current) {
+        playerRef.current.destroy();
+        playerRef.current = null;
+
+        // Logs
+        console.log("YouTube player destroyed.");
+      }
+    };
+  }, []);
 
   return (
     <div
