@@ -87,41 +87,18 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 10px;
+  width: 7px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: hsl(270, 6%, 7%);
-  border-radius: 10px;
   border: 1px solid hsl(264, 6%, 16%);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: var(--color-copy-icon-bg);
-  border-radius: 10px;
   border: 1px solid hsl(264, 6%, 16%);
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--color-copy-icon-bg-hover);
 }
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
-
-/* .dark {
-  --cerulean-blue-50:  #252746;
-  --cerulean-blue-100: #373b71;
-  --cerulean-blue-200: #3f438e;
-  --cerulean-blue-300: #4c54b5;
-  --cerulean-blue-400: #5260be;
-  --cerulean-blue-500: #6679cb;
-  --cerulean-blue-600: #8399d7;
-  --cerulean-blue-700: #abbbe5;
-  --cerulean-blue-800: #cdd6f0;
-  --cerulean-blue-900: #e3e7f6;
-  --cerulean-blue-950: #f3f5fb;
-} */

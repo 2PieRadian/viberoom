@@ -28,7 +28,7 @@ function ParticipantsTab({ participants }: { participants: Member[] }) {
         Participants ({participants.length})
       </h1>
 
-      <div className="flex max-h-[240px] flex-col gap-[10px] overflow-y-scroll custom-scrollbar">
+      <div className="flex max-h-[240px] flex-col gap-[10px] overflow-y-auto custom-scrollbar">
         {participants?.map((participant: Member) => (
           <ParticipantCard
             key={participant.socketId}
