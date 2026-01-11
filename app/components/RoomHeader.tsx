@@ -33,7 +33,7 @@ export default function RoomHeader({ roomId }: { roomId: string }) {
             {roomId}
           </span>
           <div
-            className={`flex items-center justify-center cursor-pointer p-[7px] rounded-[5px] bg-[#2a2838] transition-all duration-200 ${
+            className={`flex items-center justify-center cursor-pointer p-[7px] bg-[#2a2838] transition-all duration-200 ${
               copied ? "bg-[#33584282]" : "bg-[#302e3e9a]"
             }`}
             onClick={() => {

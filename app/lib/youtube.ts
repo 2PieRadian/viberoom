@@ -20,6 +20,7 @@ export default function loadYoutubeIframeAPI(): Promise<void> {
       console.log(
         "YouTube called 'onYouTubeIframeAPIReady'! Script is loaded successfully."
       );
+      resolve();
     };
   });
 }
