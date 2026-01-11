@@ -6,38 +6,17 @@ import Loader from "./Loader";
 import { SatoshiFont } from "../fonts";
 import OptionTabs from "./OptionTabs";
 import loadYoutubeIframeAPI from "../lib/youtube";
-import { extractYouTubeVideoId } from "../lib/utils";
 import { RoomData } from "../lib/types";
 
 interface VideoContainerProps {
   roomData: RoomData;
 }
+
 export default function VideoContainer({ roomData }: VideoContainerProps) {
-  const [collapse, setCollapse] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [loadingParticipants, setLoadingParticipants] = useState(true);
 
   const playerRef = useRef<any>(null);
   const initializedRef = useRef(false);
-  const [videoId, setVideoId] = useState<string>("Csy6Vd33cYI");
-
-  const participants = roomData?.members.map((member) => member.username);
-  console.log(participants);
-
-  useEffect(() => {
-    if (roomData?.members.length > 0) {
-      setLoadingParticipants(false);
-    }
-  }, [roomData?.members]);
-
-  function handleVideoIdChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const videoId = extractYouTubeVideoId(e.target.value);
-
-    if (videoId) {
-      setVideoId(videoId);
-      playerRef.current.loadVideoById(videoId);
-    }
-  }
 
   useEffect(() => {
     async function setupPlayer() {
@@ -46,7 +25,7 @@ export default function VideoContainer({ roomData }: VideoContainerProps) {
       await loadYoutubeIframeAPI();
 
       playerRef.current = new window.YT.Player("video-container", {
-        videoId: videoId,
+        videoId: roomData?.videoId ?? "",
         playerVars: {
           controls: 1,
           rel: 0,
@@ -57,9 +36,6 @@ export default function VideoContainer({ roomData }: VideoContainerProps) {
       });
 
       initializedRef.current = true;
-
-      // Logs
-      console.log("YouTube player initialized with video ID:", videoId);
     }
 
     setupPlayer();
@@ -68,12 +44,16 @@ export default function VideoContainer({ roomData }: VideoContainerProps) {
       if (playerRef.current) {
         playerRef.current.destroy();
         playerRef.current = null;
-
-        // Logs
-        console.log("YouTube player destroyed.");
+        initializedRef.current = false;
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (playerRef.current) {
+      playerRef.current.loadVideoById(roomData?.videoId ?? "");
+    }
+  }, [roomData?.videoId]);
 
   return (
     <div
@@ -87,21 +67,13 @@ export default function VideoContainer({ roomData }: VideoContainerProps) {
       >
         <div
           id="video-container"
-          className="w-full h-full [&>iframe]:!w-full [&>iframe]:!h-full relative"
+          className="w-full h-full [&>iframe]:w-full! [&>iframe]:h-full! relative"
         >
           {loading && <Loader />}
         </div>
       </div>
 
-      <OptionTabs
-        collapse={collapse}
-        setCollapse={setCollapse}
-        videoId={videoId}
-        setVideoId={setVideoId}
-        handleVideoIdChange={handleVideoIdChange}
-        loadingParticipants={loadingParticipants}
-        participants={participants ?? []}
-      />
+      <OptionTabs roomData={roomData} />
     </div>
   );
 }

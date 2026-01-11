@@ -9,7 +9,7 @@ import { getSocket } from "./lib/socket";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const [introDone, setIntroDone] = useState(false);
+  const [introDone, setIntroDone] = useState(true);
   const [socket, setSocket] = useState<Socket | null>(null);
   const router = useRouter();
 
@@ -29,6 +29,12 @@ export default function Home() {
       router.push(`/room/${roomId}`);
       console.log(roomId);
     });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("join-room-success");
+    };
   }, []);
 
   return (
@@ -36,7 +42,7 @@ export default function Home() {
       className={`${ClashDisplayFont.variable}`}
       style={{ fontFamily: "var(--font-clash-display)" }}
     >
-      <Intro setIntroDone={setIntroDone} />
+      {/* <Intro setIntroDone={setIntroDone} /> */}
 
       <div className="px-[20px]">
         {introDone && <JoinOrCreateRoom socket={socket} />}

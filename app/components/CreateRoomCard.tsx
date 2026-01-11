@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 
 interface CreateRoomCardProps {
@@ -16,10 +17,22 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
   const [roomName, setRoomName] = useState("");
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!socket) return;
+
+    socket.on("create-room-success", ({ roomId }: { roomId: string }) => {
+      console.log("Room created successfully:", roomId);
+      router.push(`/room/${roomId}`);
+    });
+
+    return () => {
+      socket.off("create-room-success");
+    };
+  }, [router, socket]);
 
   function handleCreate() {
-    // if (!socket) return;
-
     if (roomName.trim() === "" || username.trim() === "") {
       setError("Fields cannot be empty");
       return;

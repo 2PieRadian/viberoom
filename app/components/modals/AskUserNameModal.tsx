@@ -3,18 +3,10 @@
 import { joinRoom } from "@/app/lib/socket";
 import { SatoshiFont } from "@/app/fonts";
 import { useState } from "react";
+import { JoinRoomData } from "@/app/lib/types";
 
-export default function AskUserNameModal({
-  username,
-  setUsername,
-  setAskUserNameModalOpen,
-  roomId,
-}: {
-  roomId: string;
-  username: string;
-  setUsername: (username: string) => void;
-  setAskUserNameModalOpen: (open: boolean) => void;
-}) {
+export default function AskUserNameModal({ roomId }: { roomId: string }) {
+  const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
   function handleSubmitUserName() {
@@ -24,9 +16,7 @@ export default function AskUserNameModal({
     }
 
     setError("");
-
-    setAskUserNameModalOpen(false);
-    joinRoom({ roomId, username });
+    joinRoom({ roomId, username } as JoinRoomData);
   }
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {

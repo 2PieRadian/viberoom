@@ -16,31 +16,35 @@ export default function RoomPage() {
   const [roomExists, setRoomExists] = useState(false);
   const [hasJoinedRoom, setHasJoinedRoom] = useState(false);
 
-  const [username, setUsername] = useState("");
-  const [askUserNameModalOpen, setAskUserNameModalOpen] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
     const socket = getSocket();
-    checkRoomExists(roomId);
 
-    socket.on("room-exists-response", ({ exists }: CheckRoomExistsResponse) => {
-      if (!exists) {
-        router.push("/room-not-found");
-        return;
+    socket.on(
+      "room-exists-response",
+      ({ roomId, exists }: CheckRoomExistsResponse) => {
+        if (!exists) {
+          router.push("/room-not-found");
+          return;
+        }
+
+        setRoomExists(exists);
       }
+    );
 
-      console.log("Room exists:", exists);
-      setRoomExists(exists);
-    });
-
-    socket.on("join-room-success", () => {
+    socket.on("join-room-success", (roomState: RoomData) => {
       setHasJoinedRoom(true);
+      setRoomData(roomState);
     });
 
-    socket.on("room-state-update", (roomData: RoomData) => {
-      setRoomData(roomData);
+    // When someone updates the video id, joins the room, or leaves the room, update the room data
+    socket.on("room-state-update", (roomState: RoomData) => {
+      console.log("Room state updated:", roomState);
+      setRoomData(roomState);
     });
+
+    checkRoomExists(roomId);
   }, []);
 
   if (!roomExists) {
@@ -59,14 +63,7 @@ export default function RoomPage() {
   }
 
   if (!hasJoinedRoom) {
-    return (
-      <AskUserNameModal
-        roomId={roomId as string}
-        username={username}
-        setUsername={setUsername}
-        setAskUserNameModalOpen={setAskUserNameModalOpen}
-      />
-    );
+    return <AskUserNameModal roomId={roomId as string} />;
   }
 
   return (

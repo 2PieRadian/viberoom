@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getRandomImageUrl } from "../lib/utils";
+import { extractYouTubeVideoId, getRandomImageUrl } from "../lib/utils";
+import { Member, RoomData } from "../lib/types";
+import { getSocket } from "../lib/socket";
 
 function LiveChatTab() {
   return (
@@ -15,14 +17,17 @@ function LiveChatTab() {
   );
 }
 
-function ParticipantsTab({ participants }: { participants: string[] }) {
+function ParticipantsTab({ participants }: { participants: Member[] }) {
   return (
     <div className="h-full flex flex-col gap-[10px]">
       <h1 className="text-base font-medium">Participants</h1>
 
       <div className="flex h-[300px] flex-col gap-[10px] overflow-y-scroll custom-scrollbar">
-        {participants.map((participant) => (
-          <ParticipantCard key={participant} name={participant} />
+        {participants?.map((participant: Member) => (
+          <ParticipantCard
+            key={participant.socketId}
+            name={participant.username}
+          />
         ))}
       </div>
     </div>
@@ -54,24 +59,31 @@ function ParticipantCard({ name }: { name: string }) {
   );
 }
 
-export default function OptionTabs({
-  videoId,
-  setVideoId,
-  handleVideoIdChange,
-  setCollapse,
-  collapse,
-  loadingParticipants,
-  participants,
-}: {
-  videoId: string;
-  setVideoId: (videoId: string) => void;
-  handleVideoIdChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  collapse: boolean;
-  setCollapse: (collapse: boolean) => void;
-  loadingParticipants: boolean;
-  participants: string[];
-}) {
+interface OptionTabsProps {
+  roomData: RoomData;
+}
+
+export default function OptionTabs({ roomData }: OptionTabsProps) {
+  const participants = roomData?.members;
   const [tab, setTab] = useState<"participants" | "live-chat">("participants");
+  const [youtubeLink, setYoutubeLink] = useState<string | "">("");
+  const socket = getSocket();
+
+  function handleYoutubeLinkChange(e: React.ChangeEvent<HTMLInputElement>) {
+    console.log("Youtube link changed:", e.target.value);
+    setYoutubeLink(e.target.value);
+
+    if (e.target.value.trim() === "") return;
+    const videoId = extractYouTubeVideoId(e.target.value);
+
+    if (!videoId) return;
+    console.log("Video ID:", videoId);
+
+    // If the videoId is the same as the current videoId, don't do anything
+    if (roomData?.videoId === videoId) return;
+
+    socket.emit("video-id-updated", { roomId: roomData.roomId, videoId });
+  }
 
   return (
     <div className="w-full min-h-[300px] lg:w-[30%] flex flex-col gap-[20px] bg-live-chat-bg px-[10px] pt-[10px] border border-video-player-border">
@@ -79,9 +91,10 @@ export default function OptionTabs({
         <h1 className="text-base font-medium">Watch Video</h1>
         <input
           type="text"
+          value={youtubeLink}
           placeholder="Paste a YouTube video link"
           className="w-full bg-live-chat-inner-bg p-[10px] text-sm outline-none"
-          onChange={handleVideoIdChange}
+          onChange={handleYoutubeLinkChange}
         />
       </div>
 
