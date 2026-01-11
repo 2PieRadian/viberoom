@@ -2,15 +2,16 @@
 
 import AskUserNameModal from "@/app/components/modals/AskUserNameModal";
 import RoomHeader from "@/app/components/RoomHeader";
+import RoomName from "@/app/components/RoomName";
 import VideoContainer from "@/app/components/VideoContainer";
 import { SatoshiFont } from "@/app/fonts";
 import { checkRoomExists, getSocket } from "@/app/lib/socket";
-import { CheckRoomExistsResponse } from "@/app/lib/types";
-import Link from "next/link";
+import { CheckRoomExistsResponse, RoomData } from "@/app/lib/types";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function RoomPage() {
+  const [roomData, setRoomData] = useState<RoomData | null>(null);
   const { roomId } = useParams<{ roomId: string }>();
   const [roomExists, setRoomExists] = useState(false);
   const [hasJoinedRoom, setHasJoinedRoom] = useState(false);
@@ -37,8 +38,8 @@ export default function RoomPage() {
       setHasJoinedRoom(true);
     });
 
-    socket.on("join-room-state", (roomData) => {
-      console.log(roomData);
+    socket.on("room-state-update", (roomData: RoomData) => {
+      setRoomData(roomData);
     });
   }, []);
 
@@ -72,9 +73,9 @@ export default function RoomPage() {
     <div className="max-w-[1700px] w-full mx-auto">
       <RoomHeader roomId={roomId} />
 
-      <VideoContainer />
+      <RoomName roomName={roomData?.roomName} />
 
-      <Link href={`/`}>Change</Link>
+      <VideoContainer roomData={roomData as RoomData} />
     </div>
   );
 }

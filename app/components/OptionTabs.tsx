@@ -15,24 +15,15 @@ function LiveChatTab() {
   );
 }
 
-function ParticipantsTab() {
+function ParticipantsTab({ participants }: { participants: string[] }) {
   return (
     <div className="h-full flex flex-col gap-[10px]">
       <h1 className="text-base font-medium">Participants</h1>
 
       <div className="flex h-[300px] flex-col gap-[10px] overflow-y-scroll custom-scrollbar">
-        <ParticipantCard name="Harry Potter" />
-        <ParticipantCard name="Hermione Granger" />
-        <ParticipantCard name="Ron Weasley" />
-        <ParticipantCard name="Albus Dumbledore" />
-        <ParticipantCard name="Severus Snape" />
-        <ParticipantCard name="Lily Potter" />
-        <ParticipantCard name="James Potter" />
-        <ParticipantCard name="Sirius Black" />
-        <ParticipantCard name="Sirius Black" />
-        <ParticipantCard name="Sirius Black" />
-        <ParticipantCard name="Sirius Black" />
-        <ParticipantCard name="Remus Lupin" />
+        {participants.map((participant) => (
+          <ParticipantCard key={participant} name={participant} />
+        ))}
       </div>
     </div>
   );
@@ -69,12 +60,16 @@ export default function OptionTabs({
   handleVideoIdChange,
   setCollapse,
   collapse,
+  loadingParticipants,
+  participants,
 }: {
   videoId: string;
   setVideoId: (videoId: string) => void;
   handleVideoIdChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   collapse: boolean;
   setCollapse: (collapse: boolean) => void;
+  loadingParticipants: boolean;
+  participants: string[];
 }) {
   const [tab, setTab] = useState<"participants" | "live-chat">("participants");
 
@@ -85,12 +80,16 @@ export default function OptionTabs({
         <input
           type="text"
           placeholder="Paste a YouTube video link"
-          className="w-full bg-live-chat-inner-bg p-[10px] text-sm"
+          className="w-full bg-live-chat-inner-bg p-[10px] text-sm outline-none"
           onChange={handleVideoIdChange}
         />
       </div>
 
-      {tab === "live-chat" ? <LiveChatTab /> : <ParticipantsTab />}
+      {tab === "live-chat" ? (
+        <LiveChatTab />
+      ) : (
+        <ParticipantsTab participants={participants} />
+      )}
     </div>
   );
 }

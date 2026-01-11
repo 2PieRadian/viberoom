@@ -7,21 +7,28 @@ import { SatoshiFont } from "../fonts";
 import OptionTabs from "./OptionTabs";
 import loadYoutubeIframeAPI from "../lib/youtube";
 import { extractYouTubeVideoId } from "../lib/utils";
+import { RoomData } from "../lib/types";
 
 interface VideoContainerProps {
-  videoId: string;
-  loading: boolean;
-  setVideoId: (videoId: string) => void;
-  handleVideoIdChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  roomData: RoomData;
 }
-
-export default function VideoContainer() {
+export default function VideoContainer({ roomData }: VideoContainerProps) {
   const [collapse, setCollapse] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadingParticipants, setLoadingParticipants] = useState(true);
 
   const playerRef = useRef<any>(null);
   const initializedRef = useRef(false);
   const [videoId, setVideoId] = useState<string>("Csy6Vd33cYI");
+
+  const participants = roomData?.members.map((member) => member.username);
+  console.log(participants);
+
+  useEffect(() => {
+    if (roomData?.members.length > 0) {
+      setLoadingParticipants(false);
+    }
+  }, [roomData?.members]);
 
   function handleVideoIdChange(e: React.ChangeEvent<HTMLInputElement>) {
     const videoId = extractYouTubeVideoId(e.target.value);
@@ -92,6 +99,8 @@ export default function VideoContainer() {
         videoId={videoId}
         setVideoId={setVideoId}
         handleVideoIdChange={handleVideoIdChange}
+        loadingParticipants={loadingParticipants}
+        participants={participants ?? []}
       />
     </div>
   );
