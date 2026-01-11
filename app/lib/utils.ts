@@ -17,3 +17,9 @@ export function extractYouTubeVideoId(url: string): string | null {
     return null;
   }
 }
+
+export function getRandomImageUrl(): string {
+  const idx = Math.floor(Math.random() * 2000) + 1;
+
+  return `https://yavuzceliker.github.io/sample-images/image-${idx}.jpg`;
+}

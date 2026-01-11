@@ -83,6 +83,25 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: hsl(270, 6%, 7%);
+  border-radius: 10px;
+  border: 1px solid hsl(264, 6%, 16%);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: hsl(266, 17%, 16%);
+  border-radius: 10px;
+  border: 1px solid hsl(264, 6%, 16%);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(267, 19%, 20%);
+}
+
 /* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

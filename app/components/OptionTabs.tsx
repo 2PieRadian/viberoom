@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getRandomImageUrl } from "../lib/utils";
 
 function LiveChatTab() {
   return (
@@ -15,7 +16,51 @@ function LiveChatTab() {
 }
 
 function ParticipantsTab() {
-  return <div>Participants</div>;
+  return (
+    <div className="h-full flex flex-col gap-[10px]">
+      <h1 className="text-base font-medium">Participants</h1>
+
+      <div className="flex h-[300px] flex-col gap-[10px] overflow-y-scroll custom-scrollbar">
+        <ParticipantCard name="Harry Potter" />
+        <ParticipantCard name="Hermione Granger" />
+        <ParticipantCard name="Ron Weasley" />
+        <ParticipantCard name="Albus Dumbledore" />
+        <ParticipantCard name="Severus Snape" />
+        <ParticipantCard name="Lily Potter" />
+        <ParticipantCard name="James Potter" />
+        <ParticipantCard name="Sirius Black" />
+        <ParticipantCard name="Sirius Black" />
+        <ParticipantCard name="Sirius Black" />
+        <ParticipantCard name="Sirius Black" />
+        <ParticipantCard name="Remus Lupin" />
+      </div>
+    </div>
+  );
+}
+
+function ParticipantCard({ name }: { name: string }) {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    setImageUrl(getRandomImageUrl());
+  }, []);
+
+  return (
+    <div className="flex items-center gap-[10px]">
+      <div className="w-[40px] h-[40px] rounded-full overflow-hidden">
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt="Participant"
+            className="w-full h-full object-cover"
+          />
+        )}
+      </div>
+      <div className="flex flex-col gap-[2px]">
+        <h1 className="text-sm font-medium">{name}</h1>
+      </div>
+    </div>
+  );
 }
 
 export default function OptionTabs({
@@ -31,7 +76,7 @@ export default function OptionTabs({
   collapse: boolean;
   setCollapse: (collapse: boolean) => void;
 }) {
-  const [tab, setTab] = useState<"participants" | "live-chat">("live-chat");
+  const [tab, setTab] = useState<"participants" | "live-chat">("participants");
 
   return (
     <div className="w-full min-h-[300px] lg:w-[30%] flex flex-col gap-[20px] bg-live-chat-bg px-[10px] pt-[10px] border border-video-player-border">
