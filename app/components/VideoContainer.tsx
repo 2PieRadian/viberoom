@@ -27,7 +27,7 @@ export default function VideoContainer({
   const [playerReady, setPlayerReady] = useState(false);
   const lastTimeRef = useRef<number>(0);
 
-  const username = roomData.members.find(
+  const username = roomData?.members?.find(
     (member) => member.socketId === socket.id
   )?.username;
 
