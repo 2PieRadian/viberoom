@@ -1,8 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
+import { Loader2 } from "lucide-react";
 
 interface CreateRoomCardProps {
   socket: Socket | null;
@@ -10,19 +11,24 @@ interface CreateRoomCardProps {
 
 interface CreateRoomData {
   roomName: string;
-  // username: string;
 }
 
 export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
   const [roomName, setRoomName] = useState("");
-  // const [username, setUsername] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const roomNameInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    roomNameInputRef.current?.focus();
+  }, []);
 
   useEffect(() => {
     if (!socket) return;
 
     socket.on("create-room-success", ({ roomId }: { roomId: string }) => {
+      setIsLoading(false);
       console.log("Room created successfully:", roomId);
       router.push(`/room/${roomId}`);
     });
@@ -39,56 +45,48 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
     }
 
     setError("");
-
+    setIsLoading(true);
     socket?.emit("create-room", { roomName } as CreateRoomData);
   }
 
   return (
-    <div className="max-w-[600px] w-full p-[25px] border-[1px] border-room-card">
-      <div className="flex flex-col gap-[10px] w-full">
-        <div className="flex flex-col gap-[2px] w-full">
-          <label
-            htmlFor="roomName"
-            className="text-base text-room-card-input-label"
-          >
-            Room Name
-          </label>
-          <input
-            type="text"
-            id="roomName"
-            className="bg-room-card-input max-w-[600px] text-md w-full px-[16px] border-[1px] border-room-card-input-border px-[10px] py-[8px]"
-            placeholder="Enter room name"
-            value={roomName}
-            onChange={(e) => setRoomName(e.target.value)}
-          />
+    <div className="max-w-[600px] w-full p-[25px] border border-room-card">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleCreate();
+        }}
+      >
+        <div className="flex flex-col gap-[10px] w-full">
+          <div className="flex flex-col gap-[2px] w-full">
+            <label
+              htmlFor="roomName"
+              className="text-base text-room-card-input-label"
+            >
+              Room Name
+            </label>
+            <input
+              type="text"
+              id="roomName"
+              ref={roomNameInputRef}
+              className="bg-room-card-input max-w-[600px] text-md w-full border border-room-card-input-border px-[15px] py-[8px]"
+              placeholder="Enter room name"
+              value={roomName}
+              onChange={(e) => setRoomName(e.target.value)}
+            />
+          </div>
+
+          <div>{error && <p className="text-red-400">{error}</p>}</div>
         </div>
 
-        {/* <div className="flex flex-col gap-[2px] w-full">
-          <label
-            htmlFor="name"
-            className="text-base text-room-card-input-label"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            className="bg-room-card-input max-w-[600px] text-md w-full px-[16px] border-[1px] border-room-card-input-border rounded-[8px] px-[10px] py-[8px]"
-            placeholder="Enter a name"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div> */}
-
-        <div>{error && <p className="text-red-400">{error}</p>}</div>
-      </div>
-
-      <div
-        className="bg-intro-navbar max-w-[600px] text-md w-full mt-[10px] py-[10px] text-center cursor-pointer text-md"
-        onClick={handleCreate}
-      >
-        Create Room
-      </div>
+        <button
+          type="submit"
+          className="bg-intro-navbar max-w-[600px] w-full mt-[10px] py-[10px] text-center cursor-pointer text-md font-medium inline-flex items-center justify-center gap-2 hover:opacity-90 transition-opacity duration-200 active:scale-[0.98] transform"
+        >
+          {isLoading && <Loader2 className="h-4 w-4 shrink-0 animate-spin" />}
+          <span>{isLoading ? "Creating Room..." : "Create Room"}</span>
+        </button>
+      </form>
     </div>
   );
 }
