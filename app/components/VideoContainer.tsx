@@ -24,31 +24,22 @@ export default function VideoContainer({
   const initializedRef = useRef(false);
   const socket = getSocket();
 
+  const [playerReady, setPlayerReady] = useState(false);
   const lastTimeRef = useRef<number>(0);
-  const isApplyingRemoteRef = useRef(false);
 
   const username = roomData.members.find(
     (member) => member.socketId === socket.id
   )?.username;
 
-  // Emit the current time to the server every 500ms
+  const haveISentTheSeekEventRef = useRef(false);
+
   useEffect(() => {
-    if (!playerRef.current) return;
+    if (!playerReady || !playerRef.current) return;
 
     const interval = setInterval(() => {
-      if (
-        !playerRef.current ||
-        typeof playerRef.current.getCurrentTime !== "function"
-      )
-        return;
-
-      // If we are already applying the remote time, don't do anything
-      if (isApplyingRemoteRef.current) return;
-
       const currentTime = playerRef.current.getCurrentTime();
-      const timeDiff = currentTime - lastTimeRef.current;
+      const timeDiff = Math.abs(currentTime - lastTimeRef.current);
 
-      // If the time difference is greater than 1 second, emit the current time to the server
       if (timeDiff > 1) {
         socket.emit("seek-video", {
           roomId: roomData.roomId,
@@ -56,36 +47,21 @@ export default function VideoContainer({
           username: username,
         });
 
-        lastTimeRef.current = currentTime;
+        console.log("Emitted seek event to server with time:", currentTime);
       }
-      console.log("Time difference:", timeDiff);
+
+      lastTimeRef.current = currentTime;
     }, 500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [playerReady]);
 
-  // If the remote current time changes, apply it to the player
+  // // When currentTime changes, sync the video to the new currentTime
   useEffect(() => {
     if (!playerRef.current) return;
 
-    const player = playerRef.current;
-
-    const localTime = player.getCurrentTime();
-    if (typeof localTime !== "number") return;
-
-    const timeDiff = localTime - roomData.currentTime;
-
-    if (timeDiff > 1) {
-      // So that the seeker cannot emit the current time to the server again
-      isApplyingRemoteRef.current = true;
-      player.seekTo(roomData.currentTime);
-      lastTimeRef.current = roomData.currentTime;
-
-      // Allow local events again shortly
-      setTimeout(() => {
-        isApplyingRemoteRef.current = false;
-      }, 800);
-    }
+    playerRef.current.seekTo(roomData.currentTime);
+    console.log("Syncing video to new currentTime:", roomData.currentTime);
   }, [roomData.currentTime]);
 
   useEffect(() => {
@@ -103,6 +79,7 @@ export default function VideoContainer({
         events: {
           onReady: () => {
             setLoading(false);
+            setPlayerReady(true);
 
             if (roomData.isPlaying) {
               playerRef.current.playVideo();
