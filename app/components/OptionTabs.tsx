@@ -174,7 +174,7 @@ export default function OptionTabs({
   return (
     <div className="w-full min-h-[300px] lg:w-[30%] flex flex-col gap-[20px] bg-live-chat-bg px-[10px] pt-[10px] border border-video-player-border">
       <div className="flex flex-col gap-[5px]">
-        <h1 className="text-base font-medium">Watch Video</h1>
+        <h1 className="text-base font-medium">Change Video</h1>
         <input
           type="text"
           value={youtubeLink}
