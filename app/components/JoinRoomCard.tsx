@@ -1,10 +1,9 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
 import { CheckRoomExistsResponse } from "../lib/types";
-import { Loader2 } from "lucide-react";
 
 interface JoinRoomCardProps {
   socket: Socket | null;
@@ -14,18 +13,11 @@ export default function JoinRoomCard({ socket }: JoinRoomCardProps) {
   const router = useRouter();
   const [roomId, setRoomId] = useState("");
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const roomIdInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    roomIdInputRef.current?.focus();
-  }, []);
 
   useEffect(() => {
     if (!socket) return;
 
     socket.on("room-exists-response", ({ exists }: CheckRoomExistsResponse) => {
-      setIsLoading(false);
       if (!exists) {
         setError("Room not found. Please check the Room ID and try again.");
         return;
@@ -46,7 +38,6 @@ export default function JoinRoomCard({ socket }: JoinRoomCardProps) {
     }
 
     setError("");
-    setIsLoading(true);
     socket?.emit("check-room-exists", roomId);
   }
 
@@ -69,7 +60,6 @@ export default function JoinRoomCard({ socket }: JoinRoomCardProps) {
             <input
               type="text"
               id="roomId"
-              ref={roomIdInputRef}
               className="bg-room-card-input max-w-[600px] text-md w-full border border-room-card-input-border px-[15px] py-[8px]"
               placeholder="Enter room id here"
               value={roomId}
@@ -84,8 +74,7 @@ export default function JoinRoomCard({ socket }: JoinRoomCardProps) {
           type="submit"
           className="bg-intro-navbar max-w-[600px] w-full mt-[10px] py-[10px] text-center cursor-pointer text-md font-medium inline-flex items-center justify-center gap-2 hover:opacity-90 transition-opacity duration-200 active:scale-[0.98] transform"
         >
-          {isLoading && <Loader2 className="h-4 w-4 shrink-0 animate-spin" />}
-          <span>{isLoading ? "Joining Room..." : "Join Room"}</span>
+          <span>Join Room</span>
         </button>
       </form>
     </div>

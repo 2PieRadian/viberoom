@@ -1,9 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Socket } from "socket.io-client";
-import { Loader2 } from "lucide-react";
 
 interface CreateRoomCardProps {
   socket: Socket | null;
@@ -15,20 +14,13 @@ interface CreateRoomData {
 
 export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
   const [roomName, setRoomName] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-  const roomNameInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    roomNameInputRef.current?.focus();
-  }, []);
 
   useEffect(() => {
     if (!socket) return;
 
     socket.on("create-room-success", ({ roomId }: { roomId: string }) => {
-      setIsLoading(false);
       console.log("Room created successfully:", roomId);
       router.push(`/room/${roomId}`);
     });
@@ -45,7 +37,6 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
     }
 
     setError("");
-    setIsLoading(true);
     socket?.emit("create-room", { roomName } as CreateRoomData);
   }
 
@@ -68,7 +59,6 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
             <input
               type="text"
               id="roomName"
-              ref={roomNameInputRef}
               className="bg-room-card-input max-w-[600px] text-md w-full border border-room-card-input-border px-[15px] py-[8px]"
               placeholder="Enter room name"
               value={roomName}
@@ -83,8 +73,7 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
           type="submit"
           className="bg-intro-navbar max-w-[600px] w-full mt-[10px] py-[10px] text-center cursor-pointer text-md font-medium inline-flex items-center justify-center gap-2 hover:opacity-90 transition-opacity duration-200 active:scale-[0.98] transform"
         >
-          {isLoading && <Loader2 className="h-4 w-4 shrink-0 animate-spin" />}
-          <span>{isLoading ? "Creating Room..." : "Create Room"}</span>
+          <span>Create Room</span>
         </button>
       </form>
     </div>
