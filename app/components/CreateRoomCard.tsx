@@ -44,7 +44,7 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
   }
 
   return (
-    <div className="max-w-[600px] w-full rounded-[10px] p-[25px] border-[1px] border-room-card">
+    <div className="max-w-[600px] w-full p-[25px] border-[1px] border-room-card">
       <div className="flex flex-col gap-[10px] w-full">
         <div className="flex flex-col gap-[2px] w-full">
           <label
@@ -56,7 +56,7 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
           <input
             type="text"
             id="roomName"
-            className="bg-room-card-input max-w-[600px] text-md w-full px-[16px] border-[1px] border-room-card-input-border rounded-[8px] px-[10px] py-[8px]"
+            className="bg-room-card-input max-w-[600px] text-md w-full px-[16px] border-[1px] border-room-card-input-border px-[10px] py-[8px]"
             placeholder="Enter room name"
             value={roomName}
             onChange={(e) => setRoomName(e.target.value)}
@@ -84,7 +84,7 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
       </div>
 
       <div
-        className="bg-intro-navbar max-w-[600px] text-md w-full rounded-[8px] mt-[10px] py-[10px] text-center cursor-pointer text-md"
+        className="bg-intro-navbar max-w-[600px] text-md w-full mt-[10px] py-[10px] text-center cursor-pointer text-md"
         onClick={handleCreate}
       >
         Create Room
