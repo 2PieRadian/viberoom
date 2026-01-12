@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "viberoom",
   description: "Watch YouTube videos with friends in sync.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({
