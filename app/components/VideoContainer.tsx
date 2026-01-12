@@ -24,9 +24,69 @@ export default function VideoContainer({
   const initializedRef = useRef(false);
   const socket = getSocket();
 
+  const lastTimeRef = useRef<number>(0);
+  const isApplyingRemoteRef = useRef(false);
+
   const username = roomData.members.find(
     (member) => member.socketId === socket.id
   )?.username;
+
+  // Emit the current time to the server every 500ms
+  useEffect(() => {
+    if (!playerRef.current) return;
+
+    const interval = setInterval(() => {
+      if (
+        !playerRef.current ||
+        typeof playerRef.current.getCurrentTime !== "function"
+      )
+        return;
+
+      // If we are already applying the remote time, don't do anything
+      if (isApplyingRemoteRef.current) return;
+
+      const currentTime = playerRef.current.getCurrentTime();
+      const timeDiff = currentTime - lastTimeRef.current;
+
+      // If the time difference is greater than 1 second, emit the current time to the server
+      if (timeDiff > 1) {
+        socket.emit("seek-video", {
+          roomId: roomData.roomId,
+          currentTime: currentTime,
+          username: username,
+        });
+
+        lastTimeRef.current = currentTime;
+      }
+      console.log("Time difference:", timeDiff);
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // If the remote current time changes, apply it to the player
+  useEffect(() => {
+    if (!playerRef.current) return;
+
+    const player = playerRef.current;
+
+    const localTime = player.getCurrentTime();
+    if (typeof localTime !== "number") return;
+
+    const timeDiff = localTime - roomData.currentTime;
+
+    if (timeDiff > 1) {
+      // So that the seeker cannot emit the current time to the server again
+      isApplyingRemoteRef.current = true;
+      player.seekTo(roomData.currentTime);
+      lastTimeRef.current = roomData.currentTime;
+
+      // Allow local events again shortly
+      setTimeout(() => {
+        isApplyingRemoteRef.current = false;
+      }, 800);
+    }
+  }, [roomData.currentTime]);
 
   useEffect(() => {
     async function setupPlayer() {

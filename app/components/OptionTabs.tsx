@@ -194,21 +194,3 @@ export default function OptionTabs({
     </div>
   );
 }
-
-// Collapse Button to be shown only if the tab is collapsed (will use later)
-
-//   if (collapse) {
-//     return (
-//       <div
-//         className="w-full min-h-[300px] lg:w-[30px] bg-live-chat-bg px-[10px] pt-[10px] border border-video-player-border"
-//         onClick={() => setCollapse(false)}
-//       ></div>
-//     );
-//   }
-
-/* <button
-        onClick={() => setCollapse(true)}
-        className="text-sm text-[hsl(257,46%,66%)] transition cursor-pointer hover:bg-[hsl(259,19%,23%)] w-full bg-[#262230] px-[10px] py-[5px]"
-      >
-        Collapse
-      </button> */
