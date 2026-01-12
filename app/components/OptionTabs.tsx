@@ -25,7 +25,7 @@ function ParticipantsTab({ participants }: { participants: Member[] }) {
   return (
     <div className="max-h-full flex flex-col gap-[10px]">
       <h1 className="text-base font-medium">
-        Participants ({participants.length})
+        Participants ({participants?.length})
       </h1>
 
       <div className="flex max-h-[240px] flex-col gap-[10px] overflow-y-auto custom-scrollbar">
