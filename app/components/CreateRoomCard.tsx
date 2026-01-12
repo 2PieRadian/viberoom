@@ -10,12 +10,12 @@ interface CreateRoomCardProps {
 
 interface CreateRoomData {
   roomName: string;
-  username: string;
+  // username: string;
 }
 
 export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
   const [roomName, setRoomName] = useState("");
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
@@ -33,14 +33,14 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
   }, [router, socket]);
 
   function handleCreate() {
-    if (roomName.trim() === "" || username.trim() === "") {
+    if (roomName.trim() === "") {
       setError("Fields cannot be empty");
       return;
     }
 
     setError("");
 
-    socket?.emit("create-room", { roomName, username } as CreateRoomData);
+    socket?.emit("create-room", { roomName } as CreateRoomData);
   }
 
   return (
@@ -63,7 +63,7 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
           />
         </div>
 
-        <div className="flex flex-col gap-[2px] w-full">
+        {/* <div className="flex flex-col gap-[2px] w-full">
           <label
             htmlFor="name"
             className="text-base text-room-card-input-label"
@@ -78,7 +78,7 @@ export default function CreateRoomCard({ socket }: CreateRoomCardProps) {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-        </div>
+        </div> */}
 
         <div>{error && <p className="text-red-400">{error}</p>}</div>
       </div>

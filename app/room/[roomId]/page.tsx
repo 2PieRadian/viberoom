@@ -49,7 +49,7 @@ export default function RoomPage() {
       setRoomData(roomState);
     });
 
-    // When someone plays, pauses, or seeks the video, update the interactions
+    // When someone plays, pauses, update the interactions
     socket.on(
       "interaction-update",
       (interaction: Interaction, roomId: string) => {

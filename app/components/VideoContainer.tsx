@@ -31,7 +31,7 @@ export default function VideoContainer({
     (member) => member.socketId === socket.id
   )?.username;
 
-  const haveISentTheSeekEventRef = useRef(false);
+  const seekSentByServer = useRef<boolean>(false);
 
   useEffect(() => {
     if (!playerReady || !playerRef.current) return;
@@ -41,13 +41,15 @@ export default function VideoContainer({
       const timeDiff = Math.abs(currentTime - lastTimeRef.current);
 
       if (timeDiff > 1) {
-        socket.emit("seek-video", {
-          roomId: roomData.roomId,
-          currentTime: currentTime,
-          username: username,
-        });
+        if (!seekSentByServer.current) {
+          socket.emit("seek-video", {
+            roomId: roomData.roomId,
+            currentTime: currentTime,
+            username: username,
+          });
 
-        console.log("Emitted seek event to server with time:", currentTime);
+          console.log("Emitted seek event to server with time:", currentTime);
+        }
       }
 
       lastTimeRef.current = currentTime;
@@ -56,13 +58,17 @@ export default function VideoContainer({
     return () => clearInterval(interval);
   }, [playerReady]);
 
-  // // When currentTime changes, sync the video to the new currentTime
   useEffect(() => {
-    if (!playerRef.current) return;
+    socket.on("seek-video", ({ currentTime }) => {
+      seekSentByServer.current = true;
 
-    playerRef.current.seekTo(roomData.currentTime);
-    console.log("Syncing video to new currentTime:", roomData.currentTime);
-  }, [roomData.currentTime]);
+      playerRef.current.seekTo(currentTime);
+
+      setTimeout(() => {
+        seekSentByServer.current = false;
+      }, 500);
+    });
+  }, []);
 
   useEffect(() => {
     async function setupPlayer() {
@@ -87,6 +93,10 @@ export default function VideoContainer({
           },
           onStateChange: (event: any) => {
             const playerState = event.data;
+
+            if (seekSentByServer.current) {
+              return;
+            }
 
             if (playerState === window.YT.PlayerState.PLAYING) {
               socket.emit("play-video", {
@@ -130,6 +140,8 @@ export default function VideoContainer({
       }
     };
   }, []);
+
+  useEffect(() => {}, []);
 
   // If the videoId changes, load the new video
   useEffect(() => {
